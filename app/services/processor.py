@@ -7,5 +7,3 @@ def compute_sum(a: int, b: int) -> int:
 def reverse_string(s: str) -> str:
     """Reverse a string."""
     return s[::-1] 
-
-print("This is a placeholder function for future processing logic.")
