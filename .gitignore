@@ -1,31 +1,13 @@
-# Byte-compiled / optimized / DLL files
 __pycache__/
-*.py[cod]
-*$py.class
+*.pyc
 
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
+venv/
+env/
 
-# Flask stuff:
-instance/
-.webassets-cache
+.env
 
-# VS Code
+*.swp
+*.sublime-workspace
+*.sublime-project
 .vscode/
-
-# Mac OS
-.DS_Store
-
-# Windows
-Thumbs.db
-ehthumbs.db
-Desktop.ini
+.idea/
