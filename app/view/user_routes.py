@@ -5,6 +5,10 @@ from app.controller import user_controller
 
 router = APIRouter()
 
+@router.post("/test-message")
+def test_route():
+  return {"message": "Successful"}
+
 @router.post("/register")
 def register(username: str, password: str):
   return user_controller.register_user(username, password)
