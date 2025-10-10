@@ -1,12 +1,14 @@
 # API request for the book library
 import requests
 
-url = "https://openlibrary.org/subjects/fiction.json"
-headers = {
-    "User-Agent": "MyAppName/1.0 (myemail@example.com)"
-}
+# Function to make our api call
+def make_request(genre):
+    url = f"https://openlibrary.org/subjects/{genre}.json"
+    headers = {
+        "User-Agent": "BookRecommender/0.0.1 (johnathan.bailey433@topper.wku.edu)"
+    }
 
-response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=headers)
 
-
-print(response.text)
+    print(response.json())
+    
