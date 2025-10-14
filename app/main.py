@@ -1,3 +1,5 @@
+# Use uvicorn app.main:app --reload to run it
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.view import user_routes, library_routes

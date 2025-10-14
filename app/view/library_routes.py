@@ -1,7 +1,7 @@
 # user library routes handles book adds and biz
-
 from fastapi import APIRouter
 from app.controller import library_controller
+from app.services import open_library
 
 router = APIRouter()
 
@@ -9,9 +9,10 @@ router = APIRouter()
 def add_book(user_id: int, book_id: str, rating: int):
     return library_controller.add_book_for_user(user_id, book_id, rating)
 
-@router.get("/books/{user_id}") # here treat {user_id} as a variable this will be added in frontends call
-def get_books(user_id: int):
-    return library_controller.get_books_for_user(user_id)
+@router.post("/books/")
+def get_books(book_title: dict):
+    print(book_title)
+    return open_library.return_book(book_title['title'])
 
 @router.post("/test-library-route")
 def test_route():
