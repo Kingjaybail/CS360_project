@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\app",
+    "\\app\\config",
+    "\\app\\controller",
+    "\\app\\model",
+    "\\app\\services",
+    "\\app\\tests",
+    "\\app\\utils",
+    "\\app\\view"
+  ],
+  "SelectedNode": "\\app\\controller\\user_controller.py",
+  "PreviewInSolutionExplorer": false
+}

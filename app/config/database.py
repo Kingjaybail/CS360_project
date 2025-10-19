@@ -1,25 +1,40 @@
 # Handle database logic
 import sqlite3
 
+DB_PATH = "DB.db"
+
 def get_connection():
-  # conn = sqlite3.connect("DB.db") or we could do a DB_PATH env variable up 2 you go crazy here
+
   # conn.row_factory = sqlite3.Row -> this is new to me ngl but I read about it apparently lets u get sql as a dictionary which is pog
   # return conn
-  
-  return 0 # only here cause I hate errors
-
+  try:
+      conn = sqlite3.connect(DB_PATH)
+      conn.execute("PRAGMA foreign_keys = ON")              # Enable foreign keys because SQLite is dumb AF
+      conn.row_factory = sqlite3.Row                        # not suer what this will do
+      print(f"database connected: {DB_PATH}")
+  except sqlite3.Error as e:
+      conn = 0
+      print(f"connection to database failed")
+  return conn
 
 def init_database():
-  # conn = get_connection()
-  # curr = conn.cursor() this is how we do sql commands 
-  
-  # curr.execute("""CREATE TABLE IF NOT EXISTS...""") <-- example
+  conn = get_connection()
+  curr = conn.cursor() 
   
   # In here create table 1 if not exists make sure it has user id, user password, username, and all the associated data we checked
+  curr.execute("""CREATE TABLE IF NOT EXISTS Users (
+  USERNAME TEXT PRIMARY KEY,
+  PASSWORD TEXT,
+  USER_ID TEXT)""")
   
   # now create second table this will use the userID of table one as a primary key this one will store book id's ratings, user_id, and will have a foreign key attribute
-  
-  # conn.commit()
-  # conn.close()
+  curr.execute("""CREATE TABLE IF NOT EXISTS Users_lib (
+  USER_ID TEXT PRIMARY KEY,
+  BOOK_ID TEXT,
+  RATING INTEGER,
+  FOREIGN KEY USER_ID REFERENCES Users(USER_ID))""")        # link this table to Users by foreign key USER_ID
+    
+  conn.commit()
+  conn.close()
   
   return 0 # only here cause I hate errors^2
