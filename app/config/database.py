@@ -4,7 +4,6 @@ import sqlite3
 DB_PATH = "DB.db"
 
 def get_connection():
-
   # conn.row_factory = sqlite3.Row -> this is new to me ngl but I read about it apparently lets u get sql as a dictionary which is pog
   # return conn
   try:
@@ -25,16 +24,32 @@ def init_database():
   curr.execute("""CREATE TABLE IF NOT EXISTS Users (
   USERNAME TEXT PRIMARY KEY,
   PASSWORD TEXT,
-  USER_ID TEXT)""")
+  USER_ID TEXT Unique NOT NULL 
+  );""") # User id needs to be Unique and not null
   
   # now create second table this will use the userID of table one as a primary key this one will store book id's ratings, user_id, and will have a foreign key attribute
   curr.execute("""CREATE TABLE IF NOT EXISTS Users_lib (
   USER_ID TEXT PRIMARY KEY,
   BOOK_ID TEXT,
   RATING INTEGER,
-  FOREIGN KEY USER_ID REFERENCES Users(USER_ID))""")        # link this table to Users by foreign key USER_ID
+  FOREIGN KEY (USER_ID) REFERENCES Users(USER_ID)
+  );""")        # make sure to wrap userid in () as well 
     
   conn.commit()
   conn.close()
   
   return 0 # only here cause I hate errors^2
+
+
+def delete_tables():
+  conn = get_connection()
+  curr = conn.cursor()
+  
+  
+  curr.execute("""DROP TABLE Users_lib""")
+  curr.execute("""DROP TABLE Users;""")
+  conn.commit()
+  conn.close()
+
+# delete_tables()
+init_database()
