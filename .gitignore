@@ -11,3 +11,5 @@ env/
 *.sublime-project
 .vscode/
 .idea/
+
+newfile.log

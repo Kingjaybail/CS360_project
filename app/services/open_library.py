@@ -11,11 +11,12 @@ def find_book_by_id(id):
     
     book = response.json()
     volume_info = book.get("volumeInfo")
+    
     parsed_book = {
         "id": book.get("id"),
         "title": volume_info.get("title"),
         "authors": volume_info.get("authors"),
-        "genre": volume_info.get("subjects")
+        "genre": volume_info.get("categories")
     }
     
     return parsed_book
@@ -47,4 +48,4 @@ def return_book(title):
     book = find_book_by_id(res[0].get('id'))
     return book
 
-return_book("The lord of the rings")
+print(return_book("The lord of the rings"))
