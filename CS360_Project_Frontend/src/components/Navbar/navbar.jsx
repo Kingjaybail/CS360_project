@@ -1,7 +1,30 @@
-export default function navbar() {
+import "./navbar.css";
+
+export default function Navbar() {
   return (
-    <header style={{ margin: 0, background: "#505050ff", padding: "1rem", color: "white" }}>
-      <h2>Book Recommender</h2>
-    </header>
+    <nav className="navbar">
+      <div className="navbar-inner">
+        {/* LEFT: links */}
+        <ul className="nav-left nav-list">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#library">Library</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+
+        {/* MIDDLE-RIGHT: search (centered within column) */}
+        <div className="nav-center">
+          <input type="text" id="search" placeholder="Search" />
+          <button className="btn">Search</button>
+        </div>
+
+        {/* FAR RIGHT: login */}
+        <div className="nav-right">
+          <a href="#login" className="btn">Login</a>
+        </div>
+      </div>
+    </nav>
   );
 }
+
+
