@@ -1,5 +1,5 @@
 import { Routes, Route, NavLink } from "react-router-dom";
-import Home from "./Home/home";
+import Home from "./pages/Home/home.jsx";
 import Navbar from "../src/components/Navbar/navbar";
 
 export default function App() {

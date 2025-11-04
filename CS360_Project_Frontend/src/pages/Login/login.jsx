@@ -1,5 +1,5 @@
 import { useState } from "react";
-import routed_connectors from "../../components/connector/connector"
+import routed_connectors from "../../components/Connector/connector";
 import "./login.css";
 
 export default function Login() {
