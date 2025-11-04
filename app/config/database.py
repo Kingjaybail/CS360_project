@@ -22,18 +22,19 @@ def init_database():
   
   # In here create table 1 if not exists make sure it has user id, user password, username, and all the associated data we checked
   curr.execute("""CREATE TABLE IF NOT EXISTS Users (
-  USERNAME TEXT PRIMARY KEY,
-  PASSWORD TEXT,
-  USER_ID TEXT Unique NOT NULL 
-  );""") # User id needs to be Unique and not null
+    USER_ID TEXT PRIMARY KEY,
+    USERNAME TEXT UNIQUE NOT NULL,
+    PASSWORD TEXT NOT NULL
+    );""") # User id needs to be Unique and not null
   
   # now create second table this will use the userID of table one as a primary key this one will store book id's ratings, user_id, and will have a foreign key attribute
   curr.execute("""CREATE TABLE IF NOT EXISTS Users_lib (
-  USER_ID TEXT PRIMARY KEY,
-  BOOK_ID TEXT,
-  RATING INTEGER,
-  FOREIGN KEY (USER_ID) REFERENCES Users(USER_ID)
-  );""")        # make sure to wrap userid in () as well 
+    USER_ID TEXT NOT NULL,
+    BOOK_ID TEXT NOT NULL,
+    RATING INTEGER,
+    PRIMARY KEY (USER_ID, BOOK_ID),   
+    FOREIGN KEY (USER_ID) REFERENCES Users(USER_ID)
+    );""")        # make sure to wrap userid in () as well # the PRIMARY KEY (USER_ID, BOOK_ID) line ensures a many0to-many relationship so multiple users can check out multiple books but not the same book multiple times
     
   conn.commit()
   conn.close()
@@ -50,6 +51,7 @@ def delete_tables():
   curr.execute("""DROP TABLE Users;""")
   conn.commit()
   conn.close()
+  return 0
 
 # delete_tables()
 init_database()
