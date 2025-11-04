@@ -1,5 +1,5 @@
 import React from "react";
-import routed_connectors from "../../components/Connector/connector"; 
+import routed_connectors from "../../components/Connector/connector";
 import "./home.scss";
 
 const MOCK_BOOKS = [
@@ -16,6 +16,9 @@ const MOCK_BOOKS = [
 export default function Home() {
   return (
     <div className="home">
+      <div className="home__bg" aria-hidden />
+
+      {/* header + your existing actions */}
       <header className="home__header">
         <div>
           <h1 className="home__title">Home Library</h1>
@@ -31,17 +34,28 @@ export default function Home() {
         </div>
       </header>
 
+      {/* Search bar */}
       <div className="home__search">
-        <input className="home__searchInput" placeholder="Find new books…" type="text" />
+        <input
+          className="home__searchInput"
+          placeholder="Find new books…"
+          type="text"
+        />
         <button className="btn btn--contrast">Search</button>
       </div>
 
+      {/* grid layout */}
       <section className="home__grid">
         {MOCK_BOOKS.map((b) => (
           <article key={b.id} className="book">
             <div className="book__cover" aria-hidden>
               <span className="book__initials">
-                {b.title.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase()}
+                {b.title
+                  .split(" ")
+                  .slice(0, 2)
+                  .map((w) => w[0])
+                  .join("")
+                  .toUpperCase()}
               </span>
             </div>
             <div className="book__meta">
