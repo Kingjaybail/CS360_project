@@ -1,0 +1,114 @@
+
+body {
+    margin: 0;
+}
+
+:root {
+    --bg: #5f4634;
+    --bgAlt: #6c4f3b;
+    --text: #f4ede4;
+    --textDim: #e7dace;
+    --border: rgba(0, 0, 0, 0.25);
+    --accent: #a97b50;
+    --btn: #3b2a20;
+}
+
+.login-container {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #E8DDBF;
+    background-blend-mode: multiply;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    color: var(--text);
+}
+
+.login-container form {
+    background: var(--bgAlt);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    padding: 32px 40px;
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    animation: fadeIn 0.5s ease;
+}
+
+.login-container h2 {
+    margin-bottom: 12px;
+    color: var(--text);
+    text-align: center;
+    font-size: 28px;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, .25);
+}
+
+.input-group label {
+    display: flex;
+    flex-direction: column;
+    color: var(--textDim);
+    font-size: 15px;
+    margin-bottom: 6px;
+}
+
+.input-group input {
+    padding: 10px 12px;
+    border: 2px solid #8b6b53;
+    border-radius: 10px;
+    background-color: #fff;
+    color: #2A1A12;
+    font-size: 16px;
+    transition: all 0.2s ease;
+    box-shadow: inset 0 1px 0 rgba(0, 0, 0, .2);
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #6f533f;
+    box-shadow: 0 0 0 3px rgba(139, 107, 83, 0.25);
+}
+
+button[type="submit"] {
+    background-color: var(--btn);
+    color: var(--text);
+    border: none;
+    padding: 10px 14px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: var(--textDim);
+    color: var(--btn);
+}
+
+.login-container p {
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--textDim);
+    text-align: center;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
