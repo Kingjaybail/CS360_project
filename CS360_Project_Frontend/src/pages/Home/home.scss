@@ -23,7 +23,7 @@ $btn: #3b2a20;
 .home__searchInput {
   flex: 1; min-width: 260px; padding: 10px 12px; font-size: 16px;
   border-radius: 10px; border: 2px solid $border;
-  background: rgba(0,0,0,0.08); color: $text;
+  background: rgba(0,0,0,0.08); color: black;
   &::placeholder { color: $textDim; }
 }
 
