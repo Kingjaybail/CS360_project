@@ -1,21 +1,25 @@
 import React from "react";
-import routed_connectors from "../../components/Connector/connector"; 
+import routed_connectors from "../../components/Connector/connector";
 import "./home.scss";
 
 const MOCK_BOOKS = [
   { id: "b1", title: "The Lord of the Rings", author: "J.R.R. Tolkien" },
   { id: "b2", title: "Dune", author: "Frank Herbert" },
-  { id: "b3", title: "1984", author: "George Orwell" },
-  { id: "b4", title: "The Hobbit", author: "J.R.R. Tolkien" },
-  { id: "b5", title: "Pride and Prejudice", author: "Jane Austen" },
-  { id: "b6", title: "Foundation", author: "Isaac Asimov" },
-  { id: "b7", title: "The Name of the Wind", author: "Patrick Rothfuss" },
-  { id: "b8", title: "The Catcher in the Rye", author: "J.D. Salinger" },
+  { id: "b3", title: "Jurassic Park", author: "Michael Crichton" },
+  { id: "b4", title: "1984", author: "George Orwell" },
+  { id: "b5", title: "The Hobbit", author: "J.R.R. Tolkien" },
+  { id: "b6", title: "Pride and Prejudice", author: "Jane Austen" },
+  { id: "b7", title: "Foundation", author: "Isaac Asimov" },
+  { id: "b8", title: "The Name of the Wind", author: "Patrick Rothfuss" },
+  { id: "b9", title: "The Catcher in the Rye", author: "J.D. Salinger" },
 ];
 
 export default function Home() {
   return (
     <div className="home">
+      <div className="home__bg" aria-hidden />
+
+      {/* header + your existing actions */}
       <header className="home__header">
         <div>
           <h1 className="home__title">Home Library</h1>
@@ -31,17 +35,28 @@ export default function Home() {
         </div>
       </header>
 
+      {/* Search bar */}
       <div className="home__search">
-        <input className="home__searchInput" placeholder="Find new books…" type="text" />
+        <input
+          className="home__searchInput"
+          placeholder="Find new books…"
+          type="text"
+        />
         <button className="btn btn--contrast">Search</button>
       </div>
 
+      {/* grid layout */}
       <section className="home__grid">
         {MOCK_BOOKS.map((b) => (
           <article key={b.id} className="book">
             <div className="book__cover" aria-hidden>
               <span className="book__initials">
-                {b.title.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase()}
+                {b.title
+                  .split(" ")
+                  .slice(0, 2)
+                  .map((w) => w[0])
+                  .join("")
+                  .toUpperCase()}
               </span>
             </div>
             <div className="book__meta">
