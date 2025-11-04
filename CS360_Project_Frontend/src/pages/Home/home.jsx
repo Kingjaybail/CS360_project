@@ -1,5 +1,5 @@
 import React from "react";
-import routed_connectors from "../../components/Connector/connector"; // fixed path
+import routed_connectors from "../../components/Connector/connector"; 
 import "./home.scss";
 
 const MOCK_BOOKS = [
@@ -22,9 +22,6 @@ export default function Home() {
           <p className="home__subtitle">Recommended for you</p>
         </div>
         <div className="home__actions">
-          <button className="btn" onClick={() => routed_connectors.testConnector()}>
-            Sample
-          </button>
           <button
             className="btn"
             onClick={() => routed_connectors.get_book_info("The lord of the rings")}
