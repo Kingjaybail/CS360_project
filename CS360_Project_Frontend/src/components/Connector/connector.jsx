@@ -1,9 +1,9 @@
 // how to structure a route call
-// do the below in the url have ${API_URL}/route_prefix/route -> this is for our MVC style
-const API_URL = import.meta.env.VITE_API_URL
+// do the below in the url have ${VITE_REACT_API_URL}/route_prefix/route -> this is for our MVC style
+const VITE_REACT_API_URL = import.meta.env.VITE_REACT_API_URL
 
 export async function login_user(username, password) {
-  const result = await fetch(`${API_URL}/user/login`, {
+  const result = await fetch(`${VITE_REACT_API_URL}/user/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, password }),
@@ -16,7 +16,7 @@ export async function login_user(username, password) {
 }
 
 export async function testConnector() {
-  const result = await fetch(`${API_URL}/library/test-library-route`, {
+  const result = await fetch(`${VITE_REACT_API_URL}/library/test-library-route`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
   });
@@ -29,7 +29,7 @@ export async function testConnector() {
 
 // Get book information from backend from a book title
 export async function get_book_info(title) {
-  const result = await fetch(`${API_URL}/library/books/`, {
+  const result = await fetch(`${VITE_REACT_API_URL}/library/books/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ title })

@@ -4,7 +4,7 @@
 import logging
 
 # Create and configure logger
-logging.basicConfig(filename="../CS360_Project_Backend/logs/Logs.log",
+logging.basicConfig(filename="app/logs/Logs.log",
                     format='%(asctime)s %(message)s',
                     filemode='w')
 

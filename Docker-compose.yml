@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  backend:
+    build: ./CS360_Project_Backend
+    container_name: BookRecommender-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./CS360_Project_Backend:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: bash -c "python -m uvicorn app.main:app --host 0.0.0.0 --port 8000"
+    restart: unless-stopped
+
+  frontend:
+    build: ./CS360_Project_Frontend
+    container_name: BookRecommender-frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./CS360_Project_Frontend:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - backend
+    restart: unless-stopped
