@@ -1,6 +1,6 @@
 // how to structure a route call
 // do the below in the url have ${VITE_REACT_API_URL}/route_prefix/route -> this is for our MVC style
-const VITE_REACT_API_URL = import.meta.env.VITE_REACT_API_URL
+const VITE_REACT_API_URL = import.meta.env.VITE_REACT_API_URL || "http://localhost:8000";
 
 export async function login_user(username, password) {
   const result = await fetch(`${VITE_REACT_API_URL}/user/login`, {

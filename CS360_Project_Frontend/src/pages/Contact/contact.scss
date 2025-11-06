@@ -1,0 +1,148 @@
+// Theme (matches your app)
+$bg: #5f4634;
+$bgAlt: #6c4f3b;
+$text: #f4ede4;
+$textDark: #2A1A12;
+$textDim: #4a3a2e;
+$border: rgba(0,0,0,0.25);
+$accent: #a97b50;
+$btn: #3b2a20;
+
+// Page background (parchment, Contact-only)
+.contact {
+  position: relative;
+  isolation: isolate;
+  padding: 20px;
+  color: $textDark;
+}
+
+.contact__bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-color: #E8DDBF; // darker parchment (swap if you want #F7E7CE/#FFFDD0)
+  background-image:
+    radial-gradient(1200px 800px at 20% 0%, rgba(0,0,0,.05), transparent 70%),
+    radial-gradient(800px 600px at 80% 20%, rgba(0,0,0,.04), transparent 70%),
+    linear-gradient(0deg, rgba(255,255,255,.25), rgba(255,255,255,.25));
+  background-blend-mode: multiply;
+}
+
+/* Header */
+.contact__header {
+  margin-bottom: 16px;
+}
+.contact__title {
+  margin: 0;
+  font-size: 28px;
+  color: $textDark;
+}
+.contact__subtitle {
+  margin: 6px 0 0;
+  color: $textDim;
+}
+
+/* 2-column content area */
+.contact__content {
+  display: grid;
+  grid-template-columns: 2fr 1fr; // form | info
+  gap: 20px;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Form */
+.contact__form {
+  background: #fff;
+  border: 2px solid #C9B9A3;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.15);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+
+  label {
+    font-weight: 700;
+    color: $textDark;
+  }
+
+  input, textarea {
+    font: inherit;
+    color: $textDark;
+    padding: 10px 12px;
+    background: #fff;
+    border: 2px solid #8b6b53;
+    border-radius: 10px;
+    outline: none;
+
+    &::placeholder { color: #7a5e49; }
+
+    &:focus {
+      border-color: #6f533f;
+      box-shadow: 0 0 0 3px rgba(139,107,83,.25);
+    }
+  }
+
+  textarea { resize: vertical; }
+}
+
+.error {
+  display: none;           // simple placeholder for future validation UI
+  color: #7a2e2e;
+  font-size: 12px;
+}
+
+/* Submit button */
+.actions { margin-top: 6px; }
+
+.btn {
+  background-color: $btn;
+  color: $text;
+  border: none;
+  padding: 10px 16px;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color .2s ease, color .2s ease;
+
+  &:hover { background-color: $textDim; color: $btn; }
+}
+
+/* Status text after mock submit */
+.contact__status {
+  margin-top: 12px;
+  font-weight: 600;
+  color: $textDark;
+}
+
+/* Info panel */
+.contact__info { 
+  align-self: start;
+}
+
+.infoCard {
+  background: $bgAlt;
+  color: $text;
+  border: 1px solid $border;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.25);
+
+  h2 { margin: 0 0 8px 0; }
+  .small { opacity: .85; margin-top: 8px; }
+}
+
+.infoList {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0 0;
+
+  li + li { margin-top: 6px; }
+}

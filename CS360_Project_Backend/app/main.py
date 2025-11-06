@@ -11,13 +11,19 @@ app = FastAPI(
     version="0.0.1",
 )
 
+origins = [
+    "http://localhost:5173",
+    "http://frontend:5173"
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 init_database() # need this to actually startup our database
 
