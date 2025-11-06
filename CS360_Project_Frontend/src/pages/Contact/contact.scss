@@ -1,4 +1,4 @@
-// Theme (matches your app)
+// our global color variables
 $bg: #5f4634;
 $bgAlt: #6c4f3b;
 $text: #f4ede4;
@@ -20,7 +20,7 @@ $btn: #3b2a20;
   position: fixed;
   inset: 0;
   z-index: -1;
-  background-color: #E8DDBF; // darker parchment (swap if you want #F7E7CE/#FFFDD0)
+  background-color: #E8DDBF; // parchment base color
   background-image:
     radial-gradient(1200px 800px at 20% 0%, rgba(0,0,0,.05), transparent 70%),
     radial-gradient(800px 600px at 80% 20%, rgba(0,0,0,.04), transparent 70%),
@@ -94,7 +94,7 @@ $btn: #3b2a20;
 }
 
 .error {
-  display: none;           // simple placeholder for future validation UI
+  display: none;     
   color: #7a2e2e;
   font-size: 12px;
 }

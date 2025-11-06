@@ -1,6 +1,6 @@
 import { useState } from "react";
 import routed_connectors from "../../components/Connector/connector";
-import "./login.css";
+import "./login.scss";
 
 export default function Login() {
     const [username, setUsername] = useState("");

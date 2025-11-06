@@ -7,7 +7,7 @@ export default function Contact() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.currentTarget));
-    // fake submit for now
+    // fake submit for now( no backend)
     setStatus("Thanks! We’ll get back to you soon.");
     console.log("Contact form data (mock):", data);
     e.currentTarget.reset();
@@ -15,7 +15,6 @@ export default function Contact() {
 
   return (
     <div className="contact">
-      {/* Contact-only parchment background layer */}
       <div className="contact__bg" aria-hidden />
 
       <header className="contact__header">
@@ -64,12 +63,12 @@ export default function Contact() {
             <h2>Get in touch</h2>
             <p>We typically reply within 1–2 business days.</p>
             <ul className="infoList">
-              <li><strong>Email:</strong> support@example.com</li>
-              <li><strong>Twitter:</strong> @bookrecs</li>
-              <li><strong>Address:</strong> 123 Library Ln, Fiction City</li>
+              <li><strong>Email:</strong> <a href="mailto:johnathanbailey2022@gmail.com">johnathanbailey2022@gmail.com</a></li>
+              <li><strong>X:</strong> <a href="https://twitter.com/@Kingjaybail">Kingjaybail</a></li>
+              <li><strong>Address:</strong> <a href="https://www.google.com/maps/place/1421+Chestnut+St,+Bowling+Green,+KY+42101">1421 Chestnut St, Bowling Green, KY 42101</a></li>
             </ul>
             <p className="small">
-              No backend yet — this form is a placeholder for your future API.
+              Please do not send sensitive information through this form.
             </p>
           </div>
         </aside>
