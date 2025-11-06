@@ -1,4 +1,4 @@
-// Reuse your palette
+/* Color variables */
 $bg: #5f4634;
 $bgAlt: #6c4f3b;
 $text: #f4ede4;
@@ -43,7 +43,7 @@ $btn: #3b2a20;
 .wheel__track {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: 220px;          /* tile width */
+  grid-auto-columns: 220px;      
   gap: 14px;
   overflow-x: auto;
   padding-bottom: 8px;
@@ -55,7 +55,7 @@ $btn: #3b2a20;
   background: rgba(0,0,0,.2); border-radius: 8px;
 }
 
-/* Tile (smaller than Home cards) */
+/* Tiles */
 .tile {
   scroll-snap-align: start;
   background: $bgAlt;

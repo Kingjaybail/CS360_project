@@ -1,7 +1,8 @@
 import React, { useRef } from "react";
+import RateModal from "../../components/Rating/RateModal";
 import "./library.scss";
 
-//Mock data (swap with backend later)
+// --- Mock data ---
 const RECOMMENDED = [
   { id: "r1",  title: "The Left Hand of Darkness", author: "Ursula K. Le Guin" },
   { id: "r2",  title: "Neuromancer",                author: "William Gibson" },
@@ -32,47 +33,47 @@ const MIGHT_LIKE = [
   { id: "m12", title: "Babel",                            author: "R.F. Kuang" },
 ];
 
+// tag/genre -> books
 const BY_TAG = {
   Fantasy: [
-    { id: "t1",  title: "The Final Empire",      author: "Brandon Sanderson" },
-    { id: "t2",  title: "The Way of Kings",      author: "Brandon Sanderson" },
-    { id: "t3",  title: "The Blade Itself",      author: "Joe Abercrombie" },
-    { id: "t4",  title: "The Poppy War",         author: "R.F. Kuang" },
-    { id: "t5",  title: "Assassin’s Apprentice", author: "Robin Hobb" },
-    { id: "t6",  title: "The Lies of Locke Lamora", author: "Scott Lynch" },
-    { id: "t7",  title: "The Name of the Wind",  author: "Patrick Rothfuss" },
-    { id: "t8",  title: "The Priory of the Orange Tree", author: "Samantha Shannon" },
+    { id: "t1",  title: "The Final Empire",                author: "Brandon Sanderson" },
+    { id: "t2",  title: "The Way of Kings",                author: "Brandon Sanderson" },
+    { id: "t3",  title: "The Blade Itself",                author: "Joe Abercrombie" },
+    { id: "t4",  title: "The Poppy War",                   author: "R.F. Kuang" },
+    { id: "t5",  title: "Assassin’s Apprentice",           author: "Robin Hobb" },
+    { id: "t6",  title: "The Lies of Locke Lamora",        author: "Scott Lynch" },
+    { id: "t7",  title: "The Name of the Wind",            author: "Patrick Rothfuss" },
+    { id: "t8",  title: "The Priory of the Orange Tree",   author: "Samantha Shannon" },
   ],
   "Sci-Fi": [
-    { id: "s1", title: "Hyperion",              author: "Dan Simmons" },
-    { id: "s2", title: "Children of Time",      author: "Adrian Tchaikovsky" },
-    { id: "s3", title: "The Three-Body Problem",author: "Liu Cixin" },
-    { id: "s4", title: "Old Man’s War",         author: "John Scalzi" },
-    { id: "s5", title: "Blindsight",            author: "Peter Watts" },
-    { id: "s6", title: "The Forever War",       author: "Joe Haldeman" },
-    { id: "s7", title: "Contact",               author: "Carl Sagan" },
-    { id: "s8", title: "A Memory Called Empire",author: "Arkady Martine" },
+    { id: "s1", title: "Hyperion",               author: "Dan Simmons" },
+    { id: "s2", title: "Children of Time",       author: "Adrian Tchaikovsky" },
+    { id: "s3", title: "The Three-Body Problem", author: "Liu Cixin" },
+    { id: "s4", title: "Old Man’s War",          author: "John Scalzi" },
+    { id: "s5", title: "Blindsight",             author: "Peter Watts" },
+    { id: "s6", title: "The Forever War",        author: "Joe Haldeman" },
+    { id: "s7", title: "Contact",                author: "Carl Sagan" },
+    { id: "s8", title: "A Memory Called Empire", author: "Arkady Martine" },
   ],
   Classics: [
-    { id: "c1", title: "Brave New World",        author: "Aldous Huxley" },
-    { id: "c2", title: "The Count of Monte Cristo", author: "Alexandre Dumas" },
-    { id: "c3", title: "The Picture of Dorian Gray", author: "Oscar Wilde" },
-    { id: "c4", title: "Crime and Punishment",   author: "Fyodor Dostoevsky" },
-    { id: "c5", title: "Frankenstein",           author: "Mary Shelley" },
-    { id: "c6", title: "Dracula",                author: "Bram Stoker" },
-    { id: "c7", title: "The Odyssey",            author: "Homer" },
-    { id: "c8", title: "Jane Eyre",              author: "Charlotte Brontë" },
+    { id: "c1", title: "Brave New World",               author: "Aldous Huxley" },
+    { id: "c2", title: "The Count of Monte Cristo",     author: "Alexandre Dumas" },
+    { id: "c3", title: "The Picture of Dorian Gray",    author: "Oscar Wilde" },
+    { id: "c4", title: "Crime and Punishment",          author: "Fyodor Dostoevsky" },
+    { id: "c5", title: "Frankenstein",                  author: "Mary Shelley" },
+    { id: "c6", title: "Dracula",                       author: "Bram Stoker" },
+    { id: "c7", title: "The Odyssey",                   author: "Homer" },
+    { id: "c8", title: "Jane Eyre",                     author: "Charlotte Brontë" },
   ],
 };
 
-//Wheel component for a single row of books
-function RowWheel({ title, books }) {
+// --- Reusable scroll wheel ---
+function RowWheel({ title, books, onOpen }) {
   const trackRef = useRef(null);
 
   const scrollByCards = (dir = 1) => {
     const el = trackRef.current;
     if (!el) return;
-    // scroll roughly one viewport width of cards
     el.scrollBy({ left: dir * (el.clientWidth * 0.9), behavior: "smooth" });
   };
 
@@ -81,17 +82,39 @@ function RowWheel({ title, books }) {
       <div className="wheel__header">
         <h2 className="wheel__title">{title}</h2>
         <div className="wheel__controls">
-          <button className="btn btn--small" onClick={() => scrollByCards(-1)} aria-label="Scroll left">‹</button>
-          <button className="btn btn--small" onClick={() => scrollByCards(1)} aria-label="Scroll right">›</button>
+          <button
+            className="btn btn--small"
+            onClick={() => scrollByCards(-1)}
+            aria-label="Scroll left"
+            type="button"
+          >
+            ‹
+          </button>
+          <button
+            className="btn btn--small"
+            onClick={() => scrollByCards(1)}
+            aria-label="Scroll right"
+            type="button"
+          >
+            ›
+          </button>
         </div>
       </div>
 
       <div className="wheel__track" ref={trackRef}>
         {books.map((b) => (
-          <article key={b.id} className="tile" tabIndex="0">
+          <article
+            key={b.id}
+            className="tile"
+            tabIndex={0}
+            onClick={() => onOpen(b)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") onOpen(b);
+            }}
+          >
             <div className="tile__cover" aria-hidden>
               <span className="tile__initials">
-                {b.title.split(" ").slice(0, 2).map(w => w[0]).join("").toUpperCase()}
+                {b.title.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase()}
               </span>
             </div>
             <div className="tile__meta">
@@ -106,6 +129,30 @@ function RowWheel({ title, books }) {
 }
 
 export default function Library() {
+  const [rateOpen, setRateOpen] = React.useState(false);
+  const [selectedBook, setSelectedBook] = React.useState(null);
+  const [ratings, setRatings] = React.useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("bookRatings") || "{}");
+    } catch {
+      return {};
+    }
+  });
+
+  const openRate = (book) => {
+    setSelectedBook(book);
+    setRateOpen(true);
+  };
+  const closeRate = () => setRateOpen(false);
+
+  const handleRate = (book, value) => {
+    setRatings((prev) => {
+      const next = { ...prev, [book.id]: value };
+      localStorage.setItem("bookRatings", JSON.stringify(next));
+      return next;
+    });
+  };
+
   return (
     <div className="library">
       <div className="library__bg" aria-hidden />
@@ -114,13 +161,20 @@ export default function Library() {
         <p className="library__subtitle">Personalized picks and similar genres</p>
       </header>
 
-      <RowWheel title="Your Recommendations" books={RECOMMENDED} />
-      <RowWheel title="Might Like This" books={MIGHT_LIKE} />
+      <RowWheel title="Your Recommendations" books={RECOMMENDED} onOpen={openRate} />
+      <RowWheel title="Might Like This" books={MIGHT_LIKE} onOpen={openRate} />
 
-      {/* Auto-render wheels for each tag/genre */}
       {Object.entries(BY_TAG).map(([tag, books]) => (
-        <RowWheel key={tag} title={`Similar • ${tag}`} books={books} />
+        <RowWheel key={tag} title={`Similar • ${tag}`} books={books} onOpen={openRate} />
       ))}
+
+      <RateModal
+        book={selectedBook}
+        open={rateOpen}
+        onClose={closeRate}
+        onRate={handleRate}
+        initial={selectedBook ? ratings[selectedBook.id] || 0 : 0}
+      />
     </div>
   );
 }
