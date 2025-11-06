@@ -1,6 +1,8 @@
 import { Routes, Route, NavLink } from "react-router-dom";
 import Home from "./pages/Home/home.jsx";
 import Navbar from "../src/components/Navbar/navbar";
+import Login from "../src/pages/Login/login";
+
 
 export default function App() {
   return (
@@ -9,6 +11,7 @@ export default function App() {
       <main style={{ padding: "1rem" }}>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </main>
     </div>
