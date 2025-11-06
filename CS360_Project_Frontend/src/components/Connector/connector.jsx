@@ -3,16 +3,17 @@
 const VITE_REACT_API_URL = import.meta.env.VITE_REACT_API_URL || "http://localhost:8000";
 
 export async function login_user(username, password) {
-  const result = await fetch(`${VITE_REACT_API_URL}/user/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password }),
-  });
+    console.log(JSON.stringify({ username, password }));
+    const result = await fetch(`${VITE_REACT_API_URL}/user/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+    });
 
-  const res = await result.json();
-  console.log(res);
+    const res = await result.json();
+    console.log(res);
 
-  return res;
+    return res;
 }
 
 export async function testConnector() {

@@ -15,7 +15,7 @@ def create_user(username: str, password: str):
   conn.commit()                     #execute and commit new user to users table
   
   return 0
-  
+
 def get_user(username, password):
   # self explanitory
   # ^^^ you underestimate my stupid
@@ -34,4 +34,11 @@ def get_user(username, password):
   else:
     return {'Login Failed': "Username or Password mismatch"}
 
+def get_all_users():
+    conn = get_connection()
+    curr = conn.cursor()
+    curr.execute("SELECT * FROM Users")
+    userdata = curr.fetchall()
 
+    conn.close()
+    return userdata

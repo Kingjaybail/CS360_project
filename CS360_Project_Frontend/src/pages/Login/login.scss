@@ -1,7 +1,8 @@
 
 body {
     margin: 0;
-}
+    background-color: #E8DDBF;
+    }
 
 :root {
     --bg: #5f4634;
@@ -26,7 +27,7 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    color: var(--text);
+    color: black;
 }
 
 .login-container form {
@@ -45,11 +46,11 @@ body {
 
 .login-container h2 {
     margin-bottom: 12px;
-    color: var(--text);
+    color: black;
     text-align: center;
     font-size: 28px;
     letter-spacing: 0.5px;
-    text-shadow: 0 2px 6px rgba(0, 0, 0, .25);
+    text-shadow: 0 5px 6px rgba(0, 0, 0, .5);
 }
 
 .input-group label {
@@ -97,7 +98,7 @@ button[type="submit"]:hover {
 .login-container p {
     margin-top: 10px;
     font-size: 14px;
-    color: var(--textDim);
+    color: black;
     text-align: center;
 }
 

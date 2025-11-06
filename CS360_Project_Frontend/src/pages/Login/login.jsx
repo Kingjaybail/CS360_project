@@ -1,6 +1,6 @@
 import { useState } from "react";
 import routed_connectors from "../../components/Connector/connector";
-import "./login.css";
+import "./login.scss";
 
 export default function Login() {
     const [username, setUsername] = useState("");
@@ -9,11 +9,11 @@ export default function Login() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        const response = await routed_connectors.auth.login(username, password);
+        const response = await routed_connectors.login_user(username, password);
 
     if (response.success?.toLowerCase().includes("success")) {
-            setMessage("Login successful!");
             // Redirect or perform further actions upon successful login
+            setMessage("Login successful!");
         } else {
             setMessage(response.message || "Login failed. Please try again.");
         }
