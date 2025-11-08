@@ -57,15 +57,37 @@ def rate_user_book(user_id: str, book_id: str, rating: int):
   conn.close()
   return 0
 
+def get_user_book_rating(user_id: str, book_id: str):
+  conn = get_connection()
+  curr = conn.cursor() 
+  # curr execute slect statement into user_lib to get review score 
+  curr.execute("""SELECT RATING 
+               FROM Users_lib 
+               WHERE USER_ID = ? AND BOOK_ID = ?""",
+               (user_id, book_id))
+  rating = curr.fetchall()
+  conn.close()
+  return rating
+
 def user_exists(user_id: str):
   conn = get_connection()
   curr = conn.cursor() 
-  # curr execute update statement into user_books to change review score 
+  # curr execute select statement into user_books to get if user exist 
   curr.execute("""SELECT USER_ID 
                FROM Users 
                WHERE User_id = ?""",
                (user_id,))
   exists = curr.fetchone()
   #conn.commit()
+  conn.close()
+  return exists is not None
+
+def book_in_library(user_id, book_id):
+  conn = get_connection()
+  curr = conn.cursor()
+  curr.execute("""SELECT 1 FROM Users_lib
+              WHERE USER_ID = ? AND BOOK_ID = ?""",
+              (user_id, book_id))
+  exists = curr.fetchone()
   conn.close()
   return exists is not None
