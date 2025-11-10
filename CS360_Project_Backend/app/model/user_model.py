@@ -30,7 +30,7 @@ def get_user(username, password):
   stored_password = userdata.get("PASSWORD")
   
   if bcrypt.checkpw(password.encode('utf-8'), stored_password):
-    return {'Successful': f'User {userdata.get('USERNAME')} successfully logged in', 'USERNAME': userdata.get('USERNAME')}
+    return {'Successful': f'User {userdata.get("USERNAME")} successfully logged in', 'USERNAME': userdata.get("USERNAME")}
   else:
     return {'Login Failed': "Username or Password mismatch"}
 

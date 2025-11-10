@@ -1,0 +1,72 @@
+$bg: #5f4634;
+$bgAlt: #6c4f3b;
+$text: #f4ede4;
+$textDark: #2A1A12;
+$accent: #a97b50;
+$btn: #3b2a20;
+
+.rateModal__backdrop {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(0,0,0,.5);
+  display: grid; place-items: center;
+}
+
+.rateModal {
+  width: min(520px, 92vw);
+  background: #fff;
+  color: $textDark;
+  border: 2px solid #C9B9A3;
+  border-radius: 16px;
+  box-shadow: 0 16px 60px rgba(0,0,0,.35);
+  padding: 14px;
+  display: grid;
+  gap: 12px;
+}
+
+.rateModal__header {
+  display: flex; align-items: center; justify-content: space-between;
+  h2 { margin: 0; font-size: 20px; }
+}
+.rateModal__close {
+  background: transparent; border: none; font-size: 22px; cursor: pointer; line-height: 1;
+}
+
+.rateModal__body {
+  display: grid; grid-template-columns: 96px 1fr; gap: 12px; align-items: center;
+}
+.rateModal__cover {
+  width: 96px; aspect-ratio: 1/1; border-radius: 12px;
+  background: linear-gradient(135deg, $accent, $bg);
+  display: grid; place-items: center; color: $text;
+  box-shadow: 0 6px 20px rgba(0,0,0,.25);
+}
+.rateModal__initials { font-weight: 800; font-size: 28px; }
+
+.rateModal__title { margin: 0; font-size: 18px; }
+.rateModal__author { margin: 4px 0 0; color: #4a3a2e; }
+
+.stars {
+  display: flex; align-items: center; gap: 6px; justify-content: center; padding: 6px 0;
+}
+.star {
+  font-size: 28px; line-height: 1; background: transparent; border: none; cursor: pointer;
+  color: #c8b39a; transition: transform .05s ease, color .15s ease;
+  &:hover { transform: translateY(-1px); }
+  &.is-on { color: #e0a44d; }
+}
+
+.rateModal__footer { display: flex; justify-content: center; }
+
+/* button style reuse */
+.btn {
+  background-color: $btn; color: $text; border: none;
+  padding: 8px 16px; border-radius: 10px; cursor: pointer;
+  transition: background-color .2s ease, color .2s ease;
+  &:hover { background-color: #e7dace; color: $btn; }
+}
+
+/* accessibility helper */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 1px, 1px); white-space: nowrap; border: 0;
+}

@@ -2,7 +2,7 @@
 
 # from app.config.database import get_connection
 import app.model.user_model as user_model
-import bcrypt
+
 
 def register_user(username, password):
   # run a check to make sure user doesnt alr exist 
@@ -17,14 +17,13 @@ def register_user(username, password):
       return user_model.create_user(username, password)
   # run user_model.create_user do that biz with the function input
   # return that
-  return 0
 
 def login_user(username, password): # <-- call this from user_routes our frontend will connect to this
   # check DB to make sure they exist
   verify = user_model.get_user(username, password)
   
-  if verify.get('Successful') != None:
-    return {'Login': f'Login User {verify.get('USERNAME')}'}
+  if verify.get('Successful') is not None:
+    return {'Login': f'Login User {verify.get("USERNAME")}'}
   return False
 
 

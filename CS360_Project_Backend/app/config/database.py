@@ -8,8 +8,8 @@ def get_connection():
   # return conn
   try:
       conn = sqlite3.connect(DB_PATH)
-      conn.execute("PRAGMA foreign_keys = ON")              # Enable foreign keys because SQLite is dumb AF
-      conn.row_factory = sqlite3.Row                        # not suer what this will do
+      conn.execute("PRAGMA foreign_keys = ON") # Enable foreign keys because SQLite is dumb AF
+      conn.row_factory = sqlite3.Row # not suer what this will do
       print(f"database connected: {DB_PATH}")
   except sqlite3.Error as e:
       conn = 0
@@ -39,7 +39,6 @@ def init_database():
   conn.commit()
   conn.close()
   
-  return 0 # only here cause I hate errors^2
 
 
 def delete_tables():
@@ -54,4 +53,4 @@ def delete_tables():
   return 0
 
 # delete_tables()
-init_database()
+# init_database()
