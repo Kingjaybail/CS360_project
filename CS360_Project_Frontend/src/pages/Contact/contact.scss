@@ -135,6 +135,23 @@ $btn: #3b2a20;
   padding: 16px;
   box-shadow: 0 8px 24px rgba(0,0,0,.25);
 
+  /* Dark text for white cards */
+.infoCard--light {
+  background: #ffffff;
+  color: #2A1A12;                  /* base text */
+  border: 2px solid #C9B9A3;
+  box-shadow: 0 8px 20px rgba(0,0,0,.15);
+}
+
+.infoCard--light h1,
+.infoCard--light h2,
+.infoCard--light h3 { color: #2A1A12; }
+
+.infoCard--light p,
+.infoCard--light li,
+.infoCard--light .small { color: #3b2a20; }
+
+
   h2 { margin: 0 0 8px 0; }
   .small { opacity: .85; margin-top: 8px; }
 }
