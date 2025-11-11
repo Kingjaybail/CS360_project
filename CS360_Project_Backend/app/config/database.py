@@ -10,7 +10,6 @@ def get_connection():
       conn = sqlite3.connect(DB_PATH)
       conn.execute("PRAGMA foreign_keys = ON") # Enable foreign keys because SQLite is dumb AF
       conn.row_factory = sqlite3.Row # not suer what this will do
-      print(f"database connected: {DB_PATH}")
   except sqlite3.Error as e:
       conn = 0
       print(f"connection to database failed")

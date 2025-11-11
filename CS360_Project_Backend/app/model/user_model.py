@@ -17,22 +17,34 @@ def create_user(username: str, password: str):
   return 0
 
 def get_user(username, password):
-  # self explanitory
-  # ^^^ you underestimate my stupid
-  conn = get_connection()           # get connection
-  curr = conn.cursor()              # cursor
+    # self explanitory
+    # ^^^ you underestimate my stupid
+    conn = get_connection()           # get connection
+    curr = conn.cursor()              # cursor
+    curr.execute("SELECT * FROM Users WHERE USERNAME = ?", (username,)) # has to be a tuple cause sqlite3 is stupid
 
-  curr.execute("SELECT * FROM Users WHERE USERNAME = ?", (username,)) # has to be a tuple cause sqlite3 is stupid
-  
-  userdata = curr.fetchone()
-  userdata = dict(userdata)
-  
-  stored_password = userdata.get("PASSWORD")
-  
-  if bcrypt.checkpw(password.encode('utf-8'), stored_password):
-    return {'Successful': f'User {userdata.get("USERNAME")} successfully logged in', 'USERNAME': userdata.get("USERNAME")}
-  else:
-    return {'Login Failed': "Username or Password mismatch"}
+    userdata = curr.fetchone()
+    if userdata:
+        return {"Success": "User exists"}
+    else:
+        return {"Failed": "User not found"}
+
+def get_user_login(username, password):
+    conn = get_connection()
+    curr = conn.cursor()
+    curr.execute("SELECT * FROM Users WHERE USERNAME = ?", (username,))
+    userdata = curr.fetchone()
+    conn.close()
+
+    if not userdata:
+        return {"Failed": "User not found"}
+    else:
+        stored_hash = userdata["PASSWORD"] if isinstance(userdata, dict) else userdata[1]
+        if bcrypt.checkpw(password.encode('utf-8'), stored_hash):
+            return {"Success": "Login successful"}
+        else:
+            return {"Failed": "Login failed wrong password"}
+
 
 def get_all_users():
     conn = get_connection()
@@ -42,3 +54,9 @@ def get_all_users():
 
     conn.close()
     return userdata
+
+
+# create_user("admin", "admin")
+# usr = get_all_users()
+# for user in usr:
+#     print(user["USERNAME"])

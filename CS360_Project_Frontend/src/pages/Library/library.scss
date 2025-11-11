@@ -1,0 +1,105 @@
+/* Color variables */
+$bg: #5f4634;
+$bgAlt: #6c4f3b;
+$text: #f4ede4;
+$textDark: #2A1A12;
+$textDim: #4a3a2e;
+$border: rgba(0,0,0,0.25);
+$accent: #a97b50;
+$btn: #3b2a20;
+
+/* Page background (parchment, Library-only) */
+.library {
+  position: relative;
+  isolation: isolate;
+  padding: 20px;
+  color: $textDark;
+}
+.library__bg {
+  position: fixed; inset: 0; z-index: -1;
+  background: #E8DDBF;
+  background-image:
+    radial-gradient(1200px 800px at 20% 0%, rgba(0,0,0,.05), transparent 70%),
+    radial-gradient(800px 600px at 80% 20%, rgba(0,0,0,.04), transparent 70%),
+    linear-gradient(0deg, rgba(255,255,255,.25), rgba(255,255,255,.25));
+  background-blend-mode: multiply;
+}
+
+/* Header */
+.library__header { margin-bottom: 8px; }
+.library__title { margin: 0; font-size: 28px; color: $textDark; }
+.library__subtitle { margin: 6px 0 0; color: $textDim; }
+
+/* Wheel layout */
+.wheel { margin-top: 16px; }
+.wheel__header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px;
+}
+.wheel__title { margin: 0; font-size: 20px; color: $textDark; }
+.wheel__controls { display: flex; gap: 6px; }
+
+/* Horizontal track with scroll-snap */
+.wheel__track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 220px;      
+  gap: 14px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+}
+.wheel__track::-webkit-scrollbar { height: 8px; }
+.wheel__track::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,.2); border-radius: 8px;
+}
+
+/* Tiles */
+.tile {
+  scroll-snap-align: start;
+  background: $bgAlt;
+  border: 1px solid $border;
+  border-radius: 14px;
+  overflow: hidden;
+  color: $text;
+  box-shadow: 0 8px 22px rgba(0,0,0,.22);
+  transition: transform .08s ease, box-shadow .15s ease;
+
+  &:hover, &:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(0,0,0,.28);
+    outline: none;
+  }
+}
+
+.tile__cover {
+  width: 100%;
+  aspect-ratio: 1 / 1;                       /* square */
+  background: linear-gradient(135deg, $accent, $bg);
+  display: grid; place-items: center;
+}
+.tile__initials {
+  font-weight: 800; font-size: 24px; letter-spacing: .5px;
+  color: $text; text-shadow: 0 2px 8px rgba(0,0,0,.35);
+}
+
+.tile__meta { padding: 10px; display: grid; gap: 4px; }
+.tile__title { margin: 0; font-size: 15px; color: $text; }
+.tile__author { margin: 0; font-size: 13px; color: rgba(255,255,255,.85); }
+
+/* Buttons (reuse) */
+.btn {
+  background-color: $btn; color: $text; border: none;
+  padding: 6px 10px; font-size: 14px; border-radius: 8px;
+  cursor: pointer; transition: background-color .2s ease, color .2s ease;
+  &.btn--small { padding: 4px 8px; font-size: 13px; }
+  &:hover { background-color: $textDim; color: $btn; }
+}
+
+/* Responsive: slightly narrower tiles on small screens */
+@media (max-width: 640px) {
+  .wheel__track { grid-auto-columns: 180px; gap: 12px; }
+  .tile__initials { font-size: 20px; }
+}
+/* Validation error text */

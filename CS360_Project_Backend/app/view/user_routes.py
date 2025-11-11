@@ -17,4 +17,13 @@ def register(username: str, password: str):
 def login(data: Dict):
     username = data.get("username")
     password = data.get("password")
-    return user_controller.login_user(username, password)
+    res = user_controller.login_user(username, password)
+    print(res)
+
+    return res
+
+@router.post("/create-user")
+def create_user(data: Dict):
+    username = data.get("username")
+    password = data.get("password")
+    return user_controller.register_user(username, password)
