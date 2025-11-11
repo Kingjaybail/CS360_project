@@ -12,13 +12,13 @@ export default function Navbar() {
           <li><a href="/contact">Contact</a></li>
         </ul>
 
-        {/* MIDDLE-RIGHT: search (centered within column) */}
+        {/* CENTER: search */}
         <div className="nav-center">
           <input type="text" id="search" placeholder="Search" />
-          <button className="btn">Search</button>
+          <button className="btn" type="button">Search</button>
         </div>
 
-        {/* FAR RIGHT: login */}
+        {/* RIGHT: login */}
         <div className="nav-right">
           <a href="/login" className="btn">Login</a>
         </div>
@@ -26,5 +26,3 @@ export default function Navbar() {
     </nav>
   );
 }
-
-
