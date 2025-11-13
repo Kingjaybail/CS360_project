@@ -8,9 +8,11 @@ export default function RateModal({ book, open, onClose, onRate, initial = 0 }) 
     if (!open) return;
     const prev = document.activeElement;
     dialogRef.current?.focus();
+
     const onKey = (e) => {
       if (e.key === "Escape") onClose();
     };
+
     document.addEventListener("keydown", onKey);
     return () => {
       document.removeEventListener("keydown", onKey);
@@ -18,25 +20,57 @@ export default function RateModal({ book, open, onClose, onRate, initial = 0 }) 
     };
   }, [open, onClose]);
 
-  if (!open) return null;
+  if (!open || !book) return null;
+
+  const initials = book.title
+    ?.split(" ")
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join("")
+    .toUpperCase();
+
+  const authors =
+    book.authors && Array.isArray(book.authors)
+      ? book.authors.join(", ")
+      : book.author || "Unknown";
 
   return (
     <div className="rateModal__backdrop" role="dialog" aria-modal="true">
       <div className="rateModal" tabIndex={-1} ref={dialogRef}>
+
         <header className="rateModal__header">
-          <h2>Rate this book</h2>
+          <h2>{book.title}</h2>
           <button className="rateModal__close" onClick={onClose} aria-label="Close">×</button>
         </header>
 
         <div className="rateModal__body">
+
           <div className="rateModal__cover">
-            <span className="rateModal__initials">
-              {book?.title?.split(" ").slice(0,2).map(w=>w[0]).join("").toUpperCase()}
-            </span>
+            {book.thumbnail ? (
+              <img src={book.thumbnail} alt={book.title} className="rateModal__thumb" />
+            ) : (
+              <span className="rateModal__initials">{initials}</span>
+            )}
           </div>
+
           <div className="rateModal__meta">
-            <h3 className="rateModal__title">{book?.title}</h3>
-            <p className="rateModal__author">{book?.author}</p>
+            <p className="rateModal__author"><strong>Author(s):</strong> {authors}</p>
+
+            {book.genre && (
+              <div className="rateModal__genres">
+                <strong>Genres:</strong>
+                <ul>
+                  {book.genre.map((g) => (
+                    <li key={g}>{g}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {book.description && (
+              <div className="rateModal__description"
+                   dangerouslySetInnerHTML={{ __html: book.description }} />
+            )}
           </div>
         </div>
 
@@ -52,6 +86,7 @@ export default function RateModal({ book, open, onClose, onRate, initial = 0 }) 
     </div>
   );
 }
+
 
 function RatingStars({ max = 5, defaultValue = 0, onChange }) {
   const [value, setValue] = React.useState(defaultValue);
@@ -79,7 +114,6 @@ function RatingStars({ max = 5, defaultValue = 0, onChange }) {
             onMouseLeave={() => setValue(defaultValue)}
           >
             ★
-            <span className="sr-only">{idx} star{idx>1?"s":""}</span>
           </button>
         );
       })}

@@ -25,6 +25,7 @@ export default function Home() {
       return {};
     }
   });
+  const [searchInput, setSearchInput] = React.useState("");
 
   const openRate = (book) => {
     setSelectedBook(book);
@@ -39,6 +40,18 @@ export default function Home() {
       return next;
     });
   };
+
+    const find_book = async () => {
+      try {
+          const res = await routed_connectors.get_book_info(searchInput);
+          console.log("Book info", res);
+
+          setSelectedBook(res);
+          setRateOpen(true);
+      } catch {
+          console.log("Error");
+      }
+    };
 
   return (
     <div className="home">
@@ -68,8 +81,9 @@ export default function Home() {
           className="home__searchInput"
           placeholder="Find new books…"
           type="text"
+          onChange={(e) => setSearchInput(e.target.value)}
         />
-        <button className="btn btn--contrast">Search</button>
+        <button className="btn btn--contrast" onClick={find_book}>Search</button>
       </div>
 
       {/* Grid of square recommendation cards */}
