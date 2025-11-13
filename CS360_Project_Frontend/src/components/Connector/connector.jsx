@@ -3,16 +3,28 @@
 const VITE_REACT_API_URL = import.meta.env.VITE_REACT_API_URL || "http://localhost:8000";
 
 export async function login_user(username, password) {
-  const result = await fetch(`${VITE_REACT_API_URL}/user/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password }),
-  });
+    const result = await fetch(`${VITE_REACT_API_URL}/user/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+    });
 
-  const res = await result.json();
-  console.log(res);
+    const res = await result.json();
+    console.log(res)
 
-  return res;
+    return res;
+}
+
+export async function signup_user(username, password) {
+    const result = await fetch(`${VITE_REACT_API_URL}/user/create-user`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+    });
+
+    const res = await result.json();
+
+    return res;
 }
 
 export async function testConnector() {
@@ -48,6 +60,7 @@ const routed_connectors = {
   get_book_info,
   testConnector,
   login_user,
+  signup_user,
 };
 
 export default routed_connectors;

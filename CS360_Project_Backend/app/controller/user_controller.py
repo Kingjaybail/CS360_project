@@ -5,26 +5,21 @@ import app.model.user_model as user_model
 
 
 def register_user(username, password):
-  # run a check to make sure user doesnt alr exist 
+    existing_user = user_model.get_user(username,password)
+    print(existing_user)
+    if existing_user.get('Success'):
+        return {"Failed": "User already exists"}
 
-  # Check if username already exists in the database
-  existing_user = user_model.get_user(username)
-  print(existing_user)
-  #check for and prevent duplicate usernames
-  if existing_user :
-      return 1                  #return value of 1 means user already exists
-  else :
-      return user_model.create_user(username, password)
+    user_model.create_user(username, password)
+    return {"Success": "User successfully registered"}
+
+
   # run user_model.create_user do that biz with the function input
   # return that
 
-def login_user(username, password): # <-- call this from user_routes our frontend will connect to this
-  # check DB to make sure they exist
-  verify = user_model.get_user(username, password)
-  
-  if verify.get('Successful') is not None:
-    return {'Login': f'Login User {verify.get("USERNAME")}'}
-  return False
-
-
+def login_user(username, password):
+    user = user_model.get_user_login(username, password)
+    print(user)
+    return user
+# print(login_user("admin", "admin"))
 # register_user("JayBailey04", "password") <-- how to add a user
