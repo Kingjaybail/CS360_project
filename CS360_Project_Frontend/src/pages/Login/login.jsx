@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../context/userContext";
 import routed_connectors from "../../components/Connector/connector";
 import "./login.scss";
+
 
 export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
+    const { setUser } = useContext(UserContext);
 
     const navigate = useNavigate();
     const handleLogin = async (e) => {
@@ -15,6 +18,7 @@ export default function Login() {
         console.log(response)
         if (response.Success) {
             // Redirect or perform further actions upon successful login
+            setUser({ username });
             setMessage("Login successful!");
             navigate("/");
         } else {
