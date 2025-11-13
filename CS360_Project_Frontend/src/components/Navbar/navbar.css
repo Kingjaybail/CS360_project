@@ -25,7 +25,7 @@ body {
   display: flex;
   align-items: center;
   column-gap: 12px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 /* LEFT – links */
@@ -121,6 +121,11 @@ body {
   color: #3B2A20;
 }
 
+.nav-left, .nav-center, .nav-right {
+  flex-shrink: 1;
+  min-width: 0; /* allows flex items to shrink smaller */
+}
+
 /* Responsive */
 @media (max-width: 820px) {
   .navbar-inner {
@@ -128,6 +133,16 @@ body {
     align-items: stretch;
     row-gap: 10px;
   }
+  @media (min-width: 821px) {
+  .navbar-inner {
+    flex-wrap: nowrap;
+  }
+
+  .nav-left, .nav-center, .nav-right {
+    flex-shrink: 1;
+    min-width: 0;
+  }
+}
   .nav-left,
   .nav-center,
   .nav-right {
