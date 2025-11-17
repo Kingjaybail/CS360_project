@@ -10,13 +10,12 @@ def find_book_by_id(id):
     
     book = response.json()
     volume_info = book.get("volumeInfo")
-    print(volume_info)
     parsed_book = {
         "id": book.get("id"),
         "title": volume_info.get("title"),
         "authors": volume_info.get("authors"),
         "genre": volume_info.get("categories"),
-        "thumbnail": volume_info.get("imageLinks").get('thumbnail'),
+        "thumbnail": (volume_info.get("imageLinks", {}).get("thumbnail") or volume_info.get("imageLinks", {}).get("smallThumbnail")),
         "description": volume_info.get("description")
     }
     
@@ -39,7 +38,7 @@ def find_book_by_name(title):
             "title": volume_info.get("title"),
             "authors": volume_info.get("authors"),
             "genre": volume_info.get("categories"),
-            "thumbnail": volume_info.get("imageLinks").get('thumbnail'),
+            "thumbnail": (volume_info.get("imageLinks", {}).get("thumbnail") or volume_info.get("imageLinks", {}).get("smallThumbnail")),
             "description": volume_info.get("description")
         }
 
@@ -52,3 +51,19 @@ def return_book(title):
     book = find_book_by_id(res[0].get('id'))
     return book
 
+def return_list_of_books():
+    books = [
+        "The lord of the rings",
+        "1984",
+        "Percy Jackson",
+        "Harry potter",
+        "The farseer trilogy",
+        "Jurassic Park"
+    ]
+
+    data = []
+
+    for item in books:
+        data.append(return_book(item))
+
+    return data

@@ -21,6 +21,10 @@ def find_book(book_title: BookTitle):
     return open_library.return_book(book_title.title)
 
 
+@router.get("/get_list_of_books")
+def get_list_of_books():
+    return library_controller.get_list_of_books()
+
 @router.post("/test-library-route")
 def test_route():
     return {"message": "Successful"}
