@@ -51,6 +51,18 @@ export async function get_book_info(title) {
     return res;
 }
 
+export async function get_home_page_books() {
+    const result = await fetch(`${VITE_REACT_API_URL}/library/get_list_of_books`, {
+        method: "GET"
+    });
+
+    const res = await result.json();
+    console.log(res);
+    return res;
+}
+
+
+
 const auth = {
     login: login_user,
 };
@@ -60,6 +72,7 @@ const routed_connectors = {
     testConnector,
     login_user,
     signup_user,
-};
+    get_home_page_books,
+}
 
 export default routed_connectors;
