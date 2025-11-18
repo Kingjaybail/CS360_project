@@ -2,7 +2,7 @@
 from app.config.database import get_connection
 import uuid
 import bcrypt #this must be added to requirements
-
+import sqlite3
 
 def create_user(username: str, password: str):
   conn = get_connection()           # get connection
@@ -58,21 +58,29 @@ def get_all_users():
     conn.close()
     return userdata
 
+
+
 def save_user_rating(user_id, book_id, rating):
     conn = get_connection()
     curr = conn.cursor()
 
-    # Check if user already has a row
-    curr.execute("SELECT * FROM Users_lib WHERE USER_ID = ?", (user_id,))
+    # Check if this exact (user, book) pair exists
+    curr.execute("""
+        SELECT * FROM Users_lib
+        WHERE USER_ID = ? AND BOOK_ID = ?
+    """, (user_id, book_id))
+
     existing = curr.fetchone()
 
     if existing:
+        # UPDATE existing rating
         curr.execute("""
             UPDATE Users_lib
-            SET BOOK_ID = ?, RATING = ?
-            WHERE USER_ID = ?
-        """, (book_id, rating, user_id))
+            SET RATING = ?
+            WHERE USER_ID = ? AND BOOK_ID = ?
+        """, (rating, user_id, book_id))
     else:
+        # INSERT new rating
         curr.execute("""
             INSERT INTO Users_lib (USER_ID, BOOK_ID, RATING)
             VALUES (?, ?, ?)
@@ -81,7 +89,13 @@ def save_user_rating(user_id, book_id, rating):
     conn.commit()
     conn.close()
 
-    return {"Success": "Rating saved", "user_id": user_id, "book_id": book_id, "rating": rating}
+    return {
+        "Success": "Rating saved",
+        "user_id": user_id,
+        "book_id": book_id,
+        "rating": rating
+    }
+
 
 
 # create_user("admin", "admin")
