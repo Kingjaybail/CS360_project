@@ -1,4 +1,5 @@
 import { Routes, Route, NavLink } from "react-router-dom";
+import { UserProvider } from "../src/context/UserContext"
 import Home from "./pages/Home/home.jsx";
 import Navbar from "../src/components/Navbar/navbar";
 import Login from "../src/pages/Login/login";
@@ -7,9 +8,11 @@ import About from "./pages/About/about.jsx";
 import Library from "./pages/Library/library.jsx";
 import Signup from "./pages/Signup/signup.jsx";
 
+
 export default function App() {
   return (
     <div>
+      <UserProvider>
       <Navbar />
       <main style={{ padding: "1rem" }}>
         <Routes>
@@ -21,6 +24,7 @@ export default function App() {
           <Route path="/contact" element={<Contact />} />
         </Routes>
       </main>
+      </UserProvider>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 # handle library user biz (all of the book data processing for a user)
 
 from app.model import library_model
-
+from app.services import open_library
 def add_book_to_user(user_id, book_id, rating=0):
   
   # not sure if we want to force a rating yet so just leaving it as a default 0
@@ -13,3 +13,6 @@ def get_books(user_id):
   # I am NOT explaining this one
   
   return 0
+
+def get_list_of_books():
+  return open_library.return_list_of_books()

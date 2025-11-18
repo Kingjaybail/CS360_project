@@ -39,28 +39,40 @@ export async function testConnector() {
   return res;
 }
 
-// Get book information from backend from a book title
 export async function get_book_info(title) {
-  const result = await fetch(`${VITE_REACT_API_URL}/library/books/`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ title })
-  });
+    console.log(title)
+    const result = await fetch(`${VITE_REACT_API_URL}/library/find-book`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title }),
+    });
 
-  const res = await result.json();
-  console.log(res);
-
-  return res;
+    const res = await result.json();
+    return res;
 }
+
+export async function get_home_page_books() {
+    const result = await fetch(`${VITE_REACT_API_URL}/library/get_list_of_books`, {
+        method: "GET"
+    });
+
+    const res = await result.json();
+    console.log(res);
+    return res;
+}
+
+
+
 const auth = {
-  login: login_user,
+    login: login_user,
 };
 
 const routed_connectors = {
-  get_book_info,
-  testConnector,
-  login_user,
-  signup_user,
-};
+    get_book_info,
+    testConnector,
+    login_user,
+    signup_user,
+    get_home_page_books,
+}
 
 export default routed_connectors;
