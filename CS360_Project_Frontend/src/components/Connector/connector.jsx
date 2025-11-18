@@ -39,6 +39,27 @@ export async function testConnector() {
   return res;
 }
 
+
+export async function update_user_rating(book) {
+    console.log(book)
+    const username = JSON.parse(localStorage.getItem("username"))?.username;
+    const book_id = book.bookId;
+    const value = book.rating
+    console.log(book.bookId)
+    const result = await fetch(`${VITE_REACT_API_URL}/user/update-rating`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({username, value, book_id})
+    });
+
+    const res = await result.json();
+    console.log(res);
+
+    return res;
+}
+
+
+
 export async function get_book_info(title) {
     console.log(title)
     const result = await fetch(`${VITE_REACT_API_URL}/library/find-book`, {
@@ -73,6 +94,7 @@ const routed_connectors = {
     login_user,
     signup_user,
     get_home_page_books,
+    update_user_rating,
 }
 
 export default routed_connectors;

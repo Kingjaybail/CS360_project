@@ -23,3 +23,16 @@ def login_user(username, password):
     return user
 # print(login_user("admin", "admin"))
 # register_user("JayBailey04", "password") <-- how to add a user
+
+def update_user_rating(username, rating, book_id):
+    user = user_model.get_user(username, "")
+
+    if not user.get("Success"):
+        return {"Failed": "User not found"}
+
+    user_id = user["user_id"]
+
+    return user_model.save_user_rating(user_id, book_id, rating)
+
+
+

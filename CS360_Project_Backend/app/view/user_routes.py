@@ -27,3 +27,13 @@ def create_user(data: Dict):
     username = data.get("username")
     password = data.get("password")
     return user_controller.register_user(username, password)
+
+@router.post("/update-rating")
+def update_user_rating(data: Dict):
+    print(data)
+    username = data.get("username")
+    rating = data.get("value")
+    book_id = data.get("book_id")
+    res = user_controller.update_user_rating(username, rating, book_id)
+    print(res)
+    return res

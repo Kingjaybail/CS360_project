@@ -18,6 +18,7 @@ export default function Login() {
         if (response.Success) {
             // Redirect or perform further actions upon successful login
             setUser({ username });
+            localStorage.setItem("username", JSON.stringify({username}));
             setMessage("Login successful!");
             navigate("/");
         } else {

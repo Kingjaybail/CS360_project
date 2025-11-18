@@ -25,15 +25,16 @@ def init_database():
   PASSWORD TEXT,
   USER_ID TEXT Unique NOT NULL 
   );""") # User id needs to be Unique and not null
-  
+
   # now create second table this will use the userID of table one as a primary key this one will store book id's ratings, user_id, and will have a foreign key attribute
   curr.execute("""CREATE TABLE IF NOT EXISTS Users_lib (
-  USER_ID TEXT PRIMARY KEY,
-  BOOK_ID TEXT,
-  RATING INTEGER,
-  FOREIGN KEY (USER_ID) REFERENCES Users(USER_ID)
-  );""")        # make sure to wrap userid in () as well 
-    
+        USER_ID TEXT,
+        BOOK_ID TEXT,
+        RATING INTEGER,
+        PRIMARY KEY (USER_ID, BOOK_ID),
+        FOREIGN KEY (USER_ID) REFERENCES Users(USER_ID)
+    );""")        # make sure to wrap userid in () as well
+
   conn.commit()
   conn.close()
   
@@ -45,7 +46,7 @@ def delete_tables():
   
   
   curr.execute("""DROP TABLE Users_lib""")
-  curr.execute("""DROP TABLE Users;""")
+  # curr.execute("""DROP TABLE Users;""")
   conn.commit()
   conn.close()
 

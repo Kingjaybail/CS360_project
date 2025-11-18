@@ -17,15 +17,18 @@ def create_user(username: str, password: str):
   return 0
 
 def get_user(username, password):
-    # self explanitory
-    # ^^^ you underestimate my stupid
-    conn = get_connection()           # get connection
-    curr = conn.cursor()              # cursor
-    curr.execute("SELECT * FROM Users WHERE USERNAME = ?", (username,)) # has to be a tuple cause sqlite3 is stupid
+    conn = get_connection()
+    curr = conn.cursor()
 
+    curr.execute("SELECT * FROM Users WHERE USERNAME = ?", (username,))
     userdata = curr.fetchone()
+
     if userdata:
-        return {"Success": "User exists"}
+        return {
+            "Success": "Login successful",
+            "username": userdata["USERNAME"],
+            "user_id": userdata["USER_ID"]
+        }
     else:
         return {"Failed": "User not found"}
 
@@ -54,6 +57,31 @@ def get_all_users():
 
     conn.close()
     return userdata
+
+def save_user_rating(user_id, book_id, rating):
+    conn = get_connection()
+    curr = conn.cursor()
+
+    # Check if user already has a row
+    curr.execute("SELECT * FROM Users_lib WHERE USER_ID = ?", (user_id,))
+    existing = curr.fetchone()
+
+    if existing:
+        curr.execute("""
+            UPDATE Users_lib
+            SET BOOK_ID = ?, RATING = ?
+            WHERE USER_ID = ?
+        """, (book_id, rating, user_id))
+    else:
+        curr.execute("""
+            INSERT INTO Users_lib (USER_ID, BOOK_ID, RATING)
+            VALUES (?, ?, ?)
+        """, (user_id, book_id, rating))
+
+    conn.commit()
+    conn.close()
+
+    return {"Success": "Rating saved", "user_id": user_id, "book_id": book_id, "rating": rating}
 
 
 # create_user("admin", "admin")
