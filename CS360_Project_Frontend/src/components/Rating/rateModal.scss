@@ -6,67 +6,196 @@ $accent: #a97b50;
 $btn: #3b2a20;
 
 .rateModal__backdrop {
-  position: fixed; inset: 0; z-index: 9999;
-  background: rgba(0,0,0,.5);
-  display: grid; place-items: center;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.5);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
 }
 
 .rateModal {
-  width: min(520px, 92vw);
+  width: min(820px, 92vw);
+  max-height: 90vh;
   background: #fff;
   color: $textDark;
-  border: 2px solid #C9B9A3;
+  border: 2px solid #c9b9a3;
   border-radius: 16px;
-  box-shadow: 0 16px 60px rgba(0,0,0,.35);
+  box-shadow: 0 16px 60px rgba(0, 0, 0, 0.35);
   padding: 14px;
-  display: grid;
-  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; // keeps child scroll contained
 }
 
 .rateModal__header {
-  display: flex; align-items: center; justify-content: space-between;
-  h2 { margin: 0; font-size: 20px; }
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  h2 {
+    margin: 0;
+    font-size: 20px;
+    line-height: 1.3;
+  }
 }
+
 .rateModal__close {
-  background: transparent; border: none; font-size: 22px; cursor: pointer; line-height: 1;
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  line-height: 1;
 }
 
 .rateModal__body {
-  display: grid; grid-template-columns: 96px 1fr; gap: 12px; align-items: center;
+  display: flex;
+  gap: 14px;
+  margin-top: 8px;
+  flex: 1;
+  overflow: hidden; // prevents full-page overflow
 }
-.rateModal__cover {
-  width: 96px; aspect-ratio: 1/1; border-radius: 12px;
-  background: linear-gradient(135deg, $accent, $bg);
-  display: grid; place-items: center; color: $text;
-  box-shadow: 0 6px 20px rgba(0,0,0,.25);
-}
-.rateModal__initials { font-weight: 800; font-size: 28px; }
 
-.rateModal__title { margin: 0; font-size: 18px; }
-.rateModal__author { margin: 4px 0 0; color: #4a3a2e; }
+.rateModal__cover {
+  flex-shrink: 0;
+  width: 120px;
+  aspect-ratio: 1/1;
+  border-radius: 12px;
+  background: linear-gradient(135deg, $accent, $bg);
+  display: grid;
+  place-items: center;
+  color: $text;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+
+  img.rateModal__thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+}
+
+.rateModal__initials {
+  font-weight: 800;
+  font-size: 28px;
+}
+
+.rateModal__meta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding-right: 8px;
+  max-height: 60vh;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+  }
+}
+
+.rateModal__author {
+  margin: 4px 0;
+  color: #4a3a2e;
+  font-weight: 500;
+}
+
+.rateModal__genres {
+  margin-top: 6px;
+  strong {
+    display: block;
+    margin-bottom: 3px;
+  }
+  ul {
+    margin: 0;
+    padding-left: 16px;
+    color: #4a3a2e;
+  }
+}
+
+.rateModal__description {
+  margin-top: 10px;
+  line-height: 1.4;
+  color: #3b2a20;
+  p {
+    margin: 0 0 8px 0;
+  }
+}
 
 .stars {
-  display: flex; align-items: center; gap: 6px; justify-content: center; padding: 6px 0;
-}
-.star {
-  font-size: 28px; line-height: 1; background: transparent; border: none; cursor: pointer;
-  color: #c8b39a; transition: transform .05s ease, color .15s ease;
-  &:hover { transform: translateY(-1px); }
-  &.is-on { color: #e0a44d; }
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
+  padding: 6px 0;
 }
 
-.rateModal__footer { display: flex; justify-content: center; }
+.star {
+  font-size: 28px;
+  line-height: 1;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #c8b39a;
+  transition: transform 0.05s ease, color 0.15s ease;
+  &:hover {
+    transform: translateY(-1px);
+  }
+  &.is-on {
+    color: #e0a44d;
+  }
+}
+
+.rateModal__footer {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
 
 /* button style reuse */
 .btn {
-  background-color: $btn; color: $text; border: none;
-  padding: 8px 16px; border-radius: 10px; cursor: pointer;
-  transition: background-color .2s ease, color .2s ease;
-  &:hover { background-color: #e7dace; color: $btn; }
+  background-color: $btn;
+  color: $text;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  &:hover {
+    background-color: #e7dace;
+    color: $btn;
+  }
 }
 
 /* accessibility helper */
 .sr-only {
-  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-  overflow: hidden; clip: rect(0, 0, 1px, 1px); white-space: nowrap; border: 0;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 1px, 1px);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Responsive tweaks */
+@media (max-width: 640px) {
+  .rateModal__body {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .rateModal__meta {
+    max-height: 45vh;
+  }
 }

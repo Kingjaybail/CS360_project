@@ -35,7 +35,7 @@ def get_random_books():
       if r["id"] not in seen_ids:
         seen_ids.add(r["id"])
         all_results.append(r)
-      if len(all_results) >= 20:
+      if len(all_results) >= 21:
         return all_results
 
   return all_results

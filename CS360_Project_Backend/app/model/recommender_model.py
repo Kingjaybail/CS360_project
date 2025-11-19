@@ -1,3 +1,4 @@
+import random
 import numpy as np
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -8,86 +9,76 @@ from app.services.open_library import find_book_by_id, find_book_by_name
 
 
 def _get_user_id(username: str):
-    conn = get_connection()
-    cur = conn.cursor()
-    cur.execute("SELECT USER_ID FROM Users WHERE USERNAME = ?", (username,))
-    row = cur.fetchone()
-    conn.close()
+    with get_connection() as conn:
+        cur = conn.cursor()
+        cur.execute("SELECT USER_ID FROM Users WHERE USERNAME = ?", (username,))
+        row = cur.fetchone()
     return row["USER_ID"] if row else None
 
 
 def _get_user_ratings(user_id: str):
-
-    conn = get_connection()
-    df = pd.read_sql_query(
-        "SELECT BOOK_ID, RATING FROM Users_lib WHERE USER_ID = ?",
-        conn,
-        params=(user_id,),
-    )
-    conn.close()
-    return df
+    with get_connection() as conn:
+        return pd.read_sql_query(
+            "SELECT BOOK_ID, RATING FROM Users_lib WHERE USER_ID = ?",
+            conn,
+            params=(user_id,),
+        )
 
 
 def _build_book_text(book: dict) -> str:
-    parts = [
-        book.get("title") or "",
-        " ".join(book.get("authors") or []),
-        " ".join(book.get("genre") or []),
-        book.get("description") or "",
-    ]
-    return " ".join(parts)
+    return " ".join(
+        filter(
+            None,
+            [
+                book.get("title"),
+                " ".join(book.get("authors") or []),
+                " ".join(book.get("genre") or []),
+                book.get("description"),
+            ],
+        )
+    )
+
+
+def _fallback_recommendations(n_recs: int = 12):
+    term = random.choice(["fantasy", "science", "magic", "space", "history", "romance"])
+    return find_book_by_name(term)[:n_recs]
 
 
 def recommend_books_for_user(username: str, n_recs: int = 12):
     user_id = _get_user_id(username)
-    print("Recommending books")
     if not user_id:
         return {"recommended": []}
 
     ratings_df = _get_user_ratings(user_id)
-    if ratings_df.empty: # this just gets a generic rec if theres no ratings yet
-        seeds = ["fantasy", "science", "magic", "space", "history", "romance"]
-        import random # for some reason it wont let me import outside of here we hate python sometimes lmao
-        term = random.choice(seeds)
-        candidates = find_book_by_name(term)[:n_recs]
-        return {"recommended": candidates, "reason": "no_ratings_fallback"}
+    if ratings_df.empty:
+        return {"recommended": _fallback_recommendations(n_recs), "reason": "no_ratings_fallback"}
 
     rated_books = []
     for _, row in ratings_df.iterrows():
-        book_meta = find_book_by_id(row["BOOK_ID"])
-        if book_meta:
-            book_meta["user_rating"] = int(row["RATING"])
-            rated_books.append(book_meta)
+        book = find_book_by_id(row["BOOK_ID"])
+        if book:
+            book["user_rating"] = int(row["RATING"])
+            rated_books.append(book)
 
     if not rated_books:
         return {"recommended": [], "reason": "no_meta_for_rated"}
 
-    liked_books = [b for b in rated_books if b["user_rating"] >= 4]
-    if not liked_books:
-        liked_books = rated_books  # if user only gave low ratings, still use them
+    liked_books = [b for b in rated_books if b["user_rating"] >= 3] or rated_books
 
-    # For now: search by some tags + authors of liked books
-    candidate_books = {}
-    import random
-
-    seeds = ["fantasy", "science", "space", "magic", "novel", "adventure"]
+    seeds = {"fantasy", "science", "space", "magic", "novel", "adventure"}
     for b in liked_books:
-        seeds.append(b["title"])
-        for a in b.get("authors") or []:
-            seeds.append(a)
+        seeds.add(b["title"])
+        seeds.update(b.get("authors") or [])
+    seeds = random.sample(list(seeds), k=min(6, len(seeds)))
 
-    random.shuffle(seeds)
-    seeds = seeds[:6]
-
+    # Fetch candidates
+    candidates = {}
     for term in seeds:
-        try:
-            for item in find_book_by_name(term)[:6]:
-                candidate_books[item["id"]] = item
-        except Exception:
-            continue
+        for item in find_book_by_name(term)[:6]:
+            candidates[item["id"]] = item
 
-    rated_ids = set(ratings_df["BOOK_ID"])
-    candidates = [b for bid, b in candidate_books.items() if bid not in rated_ids]
+    rated_ids = {r["BOOK_ID"] for _, r in ratings_df.iterrows()}
+    candidates = [b for b in candidates.values() if b["id"] not in rated_ids]
 
     if not candidates:
         return {"recommended": [], "reason": "no_candidates"}
@@ -96,22 +87,17 @@ def recommend_books_for_user(username: str, n_recs: int = 12):
     texts = [_build_book_text(b) for b in all_books]
 
     vectorizer = TfidfVectorizer(stop_words="english", max_features=5000)
-    tfidf_matrix = vectorizer.fit_transform(texts)
+    tfidf = vectorizer.fit_transform(texts)
 
-    liked_vecs = tfidf_matrix[: len(liked_books)]
-    cand_vecs = tfidf_matrix[len(liked_books) :]
+    liked_vecs = tfidf[: len(liked_books)]
+    cand_vecs = tfidf[len(liked_books) :]
 
-    ratings_for_liked = np.array([b["user_rating"] for b in liked_books], dtype=float)
-    # normalize weights to 0-1
-    weights = ratings_for_liked / ratings_for_liked.max()
-    user_profile = np.average(liked_vecs.toarray(), axis=0, weights=weights)
+    weights = np.array([b["user_rating"] for b in liked_books], dtype=float)
+    weights /= weights.max()
+    profile = np.average(liked_vecs.toarray(), axis=0, weights=weights)
 
-    sims = cosine_similarity(cand_vecs, user_profile.reshape(1, -1)).ravel()
-
-    scored = list(zip(candidates, sims))
-    scored.sort(key=lambda x: x[1], reverse=True)
-
-    top = [b for (b, score) in scored[:n_recs]]
+    sims = cosine_similarity(cand_vecs, profile.reshape(1, -1)).ravel()
+    top = [b for b, _ in sorted(zip(candidates, sims), key=lambda x: x[1], reverse=True)[:n_recs]]
 
     return {
         "recommended": top,
