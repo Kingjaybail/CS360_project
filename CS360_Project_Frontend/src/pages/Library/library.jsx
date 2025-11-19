@@ -61,12 +61,13 @@ export default function Library() {
 
   const username = JSON.parse(localStorage.getItem("username"))?.username;
 
+  const loadUserBooks = async () => {
+    if (!username) return;
+    const res = await routed_connectors.get_user_rated_books(username);
+    setUserBooks(Array.isArray(res) ? res : res.books || []);
+  };
+
   useEffect(() => {
-    async function loadUserBooks() {
-      if (!username) return;
-      const res = await routed_connectors.get_user_rated_books(username);
-      setUserBooks(Array.isArray(res) ? res : res.books || []);
-    }
     loadUserBooks();
   }, [username]);
 
@@ -80,41 +81,34 @@ export default function Library() {
     loadRecs();
   }, [username]);
 
-const handleRate = async (book, value) => {
-  if (!book || !username) return;
+  const handleRate = async (book, value) => {
+    if (!book || !username) return;
 
-  try {
-    const ratingValue =
-      typeof value === "number"
-        ? value
-        : value?.user_rating || value?.rating || 0;
+    try {
+      const ratingValue =
+        typeof value === "number"
+          ? value
+          : value?.user_rating || value?.rating || 0;
 
-    if (!ratingValue) {
-      console.warn("Invalid rating value:", value);
-      return;
+      if (!ratingValue) {
+        console.warn("Invalid rating value:", value);
+        return;
+      }
+
+      await routed_connectors.update_user_rating({
+        bookId: book.id,
+        username,
+        rating: ratingValue,
+      });
+
+      await Promise.all([
+        loadUserBooks(),
+        refreshRecommendations()
+      ]);
+    } catch (err) {
+      console.error("Error updating rating:", err);
     }
-
-    console.log("Submitting rating:", { bookId: book.id, ratingValue });
-
-    await routed_connectors.update_user_rating({
-      bookId: book.id,
-      username,
-      rating: ratingValue,
-    });
-
-    // update locally
-    setUserBooks((prev) =>
-      prev.map((b) =>
-        b.id === book.id ? { ...b, user_rating: ratingValue } : b
-      )
-    );
-
-    await refreshRecommendations();
-  } catch (err) {
-    console.error("Error updating rating:", err);
-  }
-};
-
+  };
 
   const refreshRecommendations = async () => {
     if (!username) return;

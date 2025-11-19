@@ -10,7 +10,6 @@ export async function login_user(username, password) {
     });
 
     const res = await result.json();
-    console.log(res)
 
     return res;
 }
@@ -34,18 +33,15 @@ export async function testConnector() {
   });
 
   const res = await result.json();
-  console.log(res);
 
   return res;
 }
 
 
 export async function update_user_rating(book) {
-    console.log(book)
     const username = JSON.parse(localStorage.getItem("username"))?.username;
     const book_id = book.bookId;
     const value = book.rating
-    console.log(book.bookId)
     const result = await fetch(`${VITE_REACT_API_URL}/user/update-rating`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -53,13 +49,11 @@ export async function update_user_rating(book) {
     });
 
     const res = await result.json();
-    console.log(res);
 
     return res;
 }
 
 export async function get_book_info(title) {
-    console.log(title)
     const result = await fetch(`${VITE_REACT_API_URL}/library/find-book`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

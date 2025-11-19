@@ -10,15 +10,6 @@ def add_user_book(user_id: int, book_id: str, rating: int):
   
   return 0
 
-def get_user_books(user_id: int):
-  # not gonna repeat myself
-  
-  # get books
-  
-  # books = curr.fetchall()
-  
-  return 0
-
 def fetch_user_books(username: str):
   conn = get_connection()
   curr = conn.cursor()

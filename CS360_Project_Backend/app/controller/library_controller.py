@@ -18,27 +18,37 @@ def get_user_books(username: str):
 
 
 def get_random_books():
-  seeds = [
-    "fantasy", "adventure", "history", "mythology", "technology", "computer", "programming", "computer science"
-  ]
+    seeds = [
+        "adventure", "history", "technology", "computer",
+        "programming", "computer science", "dinosaur", "fiction",
+        "math", "education", "python", "java"
+        "paleontology"
+    ]
 
-  chosen_terms = random.sample(seeds, k=random.choice([2, 3]))
+    chosen_terms = seeds
 
-  all_results = []
-  seen_ids = set()
+    all_results = []
+    seen_ids = set()
 
-  # Fetch results for each chosen topic until we reach 12 unique books
-  for term in chosen_terms:
-    results = open_library.find_book_by_name(term)
-    random.shuffle(results)  # small extra randomness
-    for r in results:
-      if r["id"] not in seen_ids:
-        seen_ids.add(r["id"])
-        all_results.append(r)
-      if len(all_results) >= 21:
-        return all_results
+    books_per_seed = 3
 
-  return all_results
+    for term in chosen_terms:
+        results = open_library.find_book_by_name(term)
+        random.shuffle(results)
+
+        count = 0
+        for r in results:
+            if r["id"] not in seen_ids:
+                seen_ids.add(r["id"])
+                all_results.append(r)
+                count += 1
+            if count >= books_per_seed:
+                break
+
+        if len(all_results) >= 45:
+            break
+
+    return all_results
 
 def get_books(user_id):
   # I am NOT explaining this one

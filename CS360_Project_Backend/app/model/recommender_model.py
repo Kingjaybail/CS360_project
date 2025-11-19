@@ -39,12 +39,12 @@ def _build_book_text(book: dict) -> str:
     )
 
 
-def _fallback_recommendations(n_recs: int = 12):
-    term = random.choice(["fantasy", "science", "magic", "space", "history", "romance"])
+def _fallback_recommendations(n_recs: int = 9):
+    term = random.choice(["religion", "romance", "history"])
     return find_book_by_name(term)[:n_recs]
 
 
-def recommend_books_for_user(username: str, n_recs: int = 12):
+def recommend_books_for_user(username: str, n_recs: int = 15):
     user_id = _get_user_id(username)
     if not user_id:
         return {"recommended": []}

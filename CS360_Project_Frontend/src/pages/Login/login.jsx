@@ -14,7 +14,6 @@ export default function Login() {
     const handleLogin = async (e) => {
         e.preventDefault();
         const response = await routed_connectors.login_user(username, password);
-        console.log(response)
         if (response.Success) {
             // Redirect or perform further actions upon successful login
             setUser({ username });

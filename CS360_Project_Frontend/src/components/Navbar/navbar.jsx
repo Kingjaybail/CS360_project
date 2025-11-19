@@ -26,8 +26,8 @@ export default function Navbar() {
                 </ul>
 
                 <div className="nav-center">
-                    <input type="text" id="search" placeholder="Search" />
-                    <button className="btn">Search</button>
+{/*                     <input type="text" id="search" placeholder="Search" /> */}
+{/*                     <button className="btn">Search</button> */}
                 </div>
 
                 <div className="nav-right">

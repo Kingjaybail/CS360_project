@@ -3,11 +3,10 @@ import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 
 export default function ProtectedRoute({ children }) {
-  const { user } = useContext(UserContext);
+  const { user, loading } = useContext(UserContext);
 
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
+  if (loading) return <div style={{ textAlign: "center", marginTop: "2rem" }}>Loading...</div>;
+  if (!user) return <Navigate to="/login" replace />;
 
   return children;
 }
