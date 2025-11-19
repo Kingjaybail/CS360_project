@@ -72,7 +72,9 @@ $btn: #3b2a20;
   gap: 6px;
   flex-wrap: wrap;
 }
-
+.tile {
+  min-height: 320px;
+}
 /* Horizontal scroll track */
 .wheel__track {
   display: grid;

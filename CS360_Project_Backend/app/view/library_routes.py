@@ -28,3 +28,16 @@ def get_list_of_books():
 @router.post("/test-library-route")
 def test_route():
     return {"message": "Successful"}
+
+@router.get("/user-books/{username}")
+def user_books(username: str):
+    return library_controller.get_user_books(username)
+
+@router.get("/recommend/{username}")
+def recommend_for_user(username: str):
+    return library_controller.recommend_for_user(username)
+
+
+@router.get("/random-books")
+def random_books():
+    return library_controller.get_random_books()

@@ -1,39 +1,51 @@
 import "./navbar.css";
 import { useContext } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 
-
 export default function Navbar() {
-    const { user } = useContext(UserContext);
+    const { user, setUser } = useContext(UserContext);
+    const navigate = useNavigate();
+
+    const logout = () => {
+      localStorage.removeItem("username");
+      setUser(null);
+      navigate("/login");
+    };
+
 
     return (
         <nav className="navbar">
-              <div className="navbar-inner">
-                    {/* LEFT: links */}
-                    <ul className="nav-left nav-list">
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/about">About</a></li>
-                        <li><a href="/library">Library</a></li>
-                        <li><a href="/contact">Contact</a></li>
-                    </ul>
+            <div className="navbar-inner">
 
-                    {/* MIDDLE-RIGHT: search (centered within column) */}
-                    <div className="nav-center">
-                        <input type="text" id="search" placeholder="Search" />
-                        <button className="btn">Search</button>
-                    </div>
+                <ul className="nav-left nav-list">
+                    <li><NavLink to="/">Home</NavLink></li>
+                    <li><NavLink to="/about">About</NavLink></li>
+                    <li><NavLink to="/library">Library</NavLink></li>
+                    <li><NavLink to="/contact">Contact</NavLink></li>
+                </ul>
 
-                    {/* FAR RIGHT: login */}
-                    <div className="nav-right">
-                      {user ? (
-                        <span className="username-display">Hello, {user.username}</span>
-                      ) : (
-                        <a href="/login" className="btn">Login</a>
-                      )}
-                    </div>
-              </div>
+                <div className="nav-center">
+                    <input type="text" id="search" placeholder="Search" />
+                    <button className="btn">Search</button>
+                </div>
+
+                <div className="nav-right">
+                    {user ? (
+                        <>
+                            <span className="username-display">
+                                Hello, {user.username}
+                            </span>
+                            <button className="btn logout-btn" onClick={logout}>
+                                Logout
+                            </button>
+                        </>
+                    ) : (
+                        <NavLink to="/login" className="btn">Login</NavLink>
+                    )}
+                </div>
+
+            </div>
         </nav>
     );
 }
-
-

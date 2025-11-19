@@ -8,6 +8,7 @@ export default function Home() {
   const [rateOpen, setRateOpen] = React.useState(false);
   const [selectedBook, setSelectedBook] = React.useState(null);
   const [searchInput, setSearchInput] = React.useState("");
+  const [loading, setLoading] = React.useState(true);
 
   const [ratings, setRatings] = React.useState(() => {
     try {
@@ -24,12 +25,20 @@ export default function Home() {
 
   const closeRate = () => setRateOpen(false);
 
-  useEffect(() => {
-    async function load() {
+  const loadBooks = async () => {
+    try {
+      setLoading(true);
       const list = await routed_connectors.get_home_page_books();
       setBooks(list);
+    } catch (err) {
+      console.error("Error loading books:", err);
+    } finally {
+      setLoading(false);
     }
-    load();
+  };
+
+  useEffect(() => {
+    loadBooks();
   }, []);
 
   useEffect(() => {
@@ -44,7 +53,7 @@ export default function Home() {
       routed_connectors.update_user_rating({
         bookId: book.id,
         username: username,
-        rating: value
+        rating: value,
       });
 
       return { ...prev, [book.id]: value };
@@ -54,12 +63,10 @@ export default function Home() {
   const find_book = async () => {
     try {
       const res = await routed_connectors.get_book_info(searchInput);
-      console.log("Book info", res);
-
       setSelectedBook(res);
       setRateOpen(true);
     } catch {
-      console.log("Error");
+      console.log("Error searching book");
     }
   };
 
@@ -69,14 +76,11 @@ export default function Home() {
 
       <header className="home__header">
         <div>
-          <h1 className="home__title">Home Library</h1>
+          <h1 className="home__title">Home</h1>
         </div>
         <div className="home__actions">
-          <button
-            className="btn"
-            onClick={() => routed_connectors.get_book_info("The lord of the rings")}
-          >
-            Get book information
+          <button className="btn" onClick={loadBooks} disabled={loading}>
+            {loading ? "Refreshing..." : "Refresh Books"}
           </button>
         </div>
       </header>
@@ -93,63 +97,69 @@ export default function Home() {
         </button>
       </div>
 
-      <section className="home__grid">
-        {books.map((b) => (
-          <article
-            key={b.id}
-            className="book"
-            tabIndex={0}
-            onClick={() => openRate(b)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") openRate(b);
-            }}
-          >
-            <div className="book__cover" aria-hidden>
-              {b.thumbnail ? (
-                <img src={b.thumbnail} alt={b.title} className="book__img" />
-              ) : (
-                <span className="book__initials">
-                  {b.title
-                    .split(" ")
-                    .slice(0, 2)
-                    .map((w) => w[0])
-                    .join("")
-                    .toUpperCase()}
-                </span>
-              )}
-            </div>
-
-            <div className="book__meta">
-              <h3 className="book__title" title={b.title}>
-                {b.title}
-              </h3>
-
-              <p className="book__author">
-                {Array.isArray(b.authors) ? b.authors.join(", ") : b.authors}
-              </p>
-
-              <div className="book__footer">
-                <span className="book__tag">
-                  {ratings[b.id]
-                    ? `Rated: ${"★".repeat(ratings[b.id])}`
-                    : "Recommended"}
-                </span>
-
-                <button
-                  className="btn btn--small"
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    openRate(b);
-                  }}
-                >
-                  Rate
-                </button>
+      {loading ? (
+        <div className="spinner-container">
+          <div className="spinner" />
+        </div>
+      ) : (
+        <section className="home__grid">
+          {books.map((b) => (
+            <article
+              key={b.id}
+              className="book"
+              tabIndex={0}
+              onClick={() => openRate(b)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") openRate(b);
+              }}
+            >
+              <div className="book__cover" aria-hidden>
+                {b.thumbnail ? (
+                  <img src={b.thumbnail} alt={b.title} className="book__img" />
+                ) : (
+                  <span className="book__initials">
+                    {b.title
+                      .split(" ")
+                      .slice(0, 2)
+                      .map((w) => w[0])
+                      .join("")
+                      .toUpperCase()}
+                  </span>
+                )}
               </div>
-            </div>
-          </article>
-        ))}
-      </section>
+
+              <div className="book__meta">
+                <h3 className="book__title" title={b.title}>
+                  {b.title}
+                </h3>
+
+                <p className="book__author">
+                  {Array.isArray(b.authors) ? b.authors.join(", ") : b.authors}
+                </p>
+
+                <div className="book__footer">
+                  <span className="book__tag">
+                    {ratings[b.id]
+                      ? `Rated: ${"★".repeat(ratings[b.id])}`
+                      : "Recommended"}
+                  </span>
+
+                  <button
+                    className="btn btn--small"
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openRate(b);
+                    }}
+                  >
+                    Rate
+                  </button>
+                </div>
+              </div>
+            </article>
+          ))}
+        </section>
+      )}
 
       <RateModal
         book={selectedBook}

@@ -1,7 +1,6 @@
 import requests
 
 def find_book_by_id(id):
-    
     url = f"https://www.googleapis.com/books/v1/volumes/{id}"
     headers = {
         "User-Agent": "BookRecommender/0.0.1 (johnathan.bailey433@topper.wku.edu)"

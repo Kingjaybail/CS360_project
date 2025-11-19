@@ -58,8 +58,6 @@ export async function update_user_rating(book) {
     return res;
 }
 
-
-
 export async function get_book_info(title) {
     console.log(title)
     const result = await fetch(`${VITE_REACT_API_URL}/library/find-book`, {
@@ -73,16 +71,23 @@ export async function get_book_info(title) {
 }
 
 export async function get_home_page_books() {
-    const result = await fetch(`${VITE_REACT_API_URL}/library/get_list_of_books`, {
+    const result = await fetch(`${VITE_REACT_API_URL}/library/random-books`, {
         method: "GET"
     });
 
     const res = await result.json();
-    console.log(res);
     return res;
 }
 
+export async function get_user_rated_books(username) {
+  const result = await fetch(`${VITE_REACT_API_URL}/library/user-books/${username}`);
+  return await result.json();
+}
 
+export async function get_recommendations(username) {
+  const result = await fetch(`${VITE_REACT_API_URL}/library/recommend/${username}`);
+  return await result.json();
+}
 
 const auth = {
     login: login_user,
@@ -95,6 +100,8 @@ const routed_connectors = {
     signup_user,
     get_home_page_books,
     update_user_rating,
+    get_user_rated_books,
+    get_recommendations
 }
 
 export default routed_connectors;

@@ -2,3 +2,6 @@ fastapi
 uvicorn
 bcrypt
 requests
+scikit-learn
+pandas
+numpy
