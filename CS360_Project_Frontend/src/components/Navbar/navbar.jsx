@@ -23,6 +23,7 @@ export default function Navbar() {
                     <li><NavLink to="/about">About</NavLink></li>
                     <li><NavLink to="/library">Library</NavLink></li>
                     <li><NavLink to="/contact">Contact</NavLink></li>
+                    <li><NavLink to="/analytics">Analytics</NavLink></li>
                 </ul>
 
                 <div className="nav-center">

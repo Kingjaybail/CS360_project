@@ -8,6 +8,7 @@ import About from "./pages/About/about.jsx";
 import Library from "./pages/Library/library.jsx";
 import Signup from "./pages/Signup/signup.jsx";
 import ProtectedRoute from "./components/ProtectedRoute/protectedroute.jsx";
+import Analytics from "./pages/Analytics/analytics.jsx";
 
 export default function App() {
   return (
@@ -29,6 +30,14 @@ export default function App() {
               }
             />
             <Route
+              path="/analytics"
+              element={
+                <ProtectedRoute>
+                  <Analytics />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/library"
               element={
                 <ProtectedRoute>
@@ -36,6 +45,7 @@ export default function App() {
                 </ProtectedRoute>
               }
             />
+
           </Routes>
         </main>
       </UserProvider>

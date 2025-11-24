@@ -83,6 +83,15 @@ export async function get_recommendations(username) {
   return await result.json();
 }
 
+export async function get_analytics_data() {
+     const result = await fetch(`${VITE_REACT_API_URL}/data/generate`, {
+        method: "GET"
+    });
+
+    const res = await result.json();
+    return res;
+}
+
 const auth = {
     login: login_user,
 };
@@ -95,7 +104,8 @@ const routed_connectors = {
     get_home_page_books,
     update_user_rating,
     get_user_rated_books,
-    get_recommendations
+    get_recommendations,
+    get_analytics_data
 }
 
 export default routed_connectors;
