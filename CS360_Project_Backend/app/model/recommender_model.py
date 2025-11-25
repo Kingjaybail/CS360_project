@@ -63,7 +63,7 @@ def recommend_books_for_user(username: str, n_recs: int = 15):
     if not rated_books:
         return {"recommended": [], "reason": "no_meta_for_rated"}
 
-    liked_books = [b for b in rated_books if b["user_rating"] >= 3] or rated_books
+    liked_books = [b for b in rated_books if b["user_rating"] >= 4] or rated_books
 
     seeds = {"fantasy", "science", "space", "magic", "novel", "adventure"}
     for b in liked_books:
