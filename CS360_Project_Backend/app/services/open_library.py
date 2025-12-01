@@ -31,7 +31,7 @@ def find_book_by_name(title):
 
     books = []
     for item in data.get("items"):
-        volume_info = item.get("volumeInfo")
+        volume_info = item.get("volumeInfo") or None
         book = {
             "id": item.get("id"),
             "title": volume_info.get("title"),
