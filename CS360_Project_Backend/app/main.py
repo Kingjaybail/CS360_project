@@ -28,7 +28,7 @@ app.include_router(user_routes.router, prefix="/user")
 app.include_router(library_routes.router, prefix="/library")
 app.include_router(data_routes.router, prefix="/data")
 
-@app.get("/")
-async def root():
-    return {"Welcome": "Yo this be my page yo"}
+@app.api_route("/", methods=["GET", "HEAD"])
+def root():
+    return {"status": "ok"}
 
