@@ -1,18 +1,12 @@
-# Backend Dockerfile (FastAPI)
 FROM python:3.11-slim
 
 WORKDIR /app
 
-# Copy requirements first for caching
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+ENV PYTHONPATH=/app
 
-# Copy all backend files
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
 COPY . .
 
-# Expose FastAPI port
-EXPOSE 8000
-
-# Run FastAPI with uvicorn
-CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port $PORT"]
-
+CMD ["sh", "-c", "python3 -m uvicorn app.main:app --host 0.0.0.0 --port $PORT"]
