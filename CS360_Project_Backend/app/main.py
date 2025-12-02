@@ -13,7 +13,10 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["bookrec-three.vercel.app"], #keep it like this for prod
+    allow_origins=[
+        "http://localhost:5173",      # local
+        "https://bookrec.dev",        # prod
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
